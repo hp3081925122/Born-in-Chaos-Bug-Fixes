@@ -48,9 +48,11 @@ import net.mcreator.borninchaosv.entity.layer.SearedSpiritNotDespawnLayer;
 import net.mcreator.borninchaosv.entity.layer.SenorPumpkinLayer;
 import net.mcreator.borninchaosv.entity.layer.SirPumpkinheadLayer;
 import net.mcreator.borninchaosv.entity.layer.SirPumpkinheadWithoutHorseLayer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -178,8 +180,16 @@ public abstract class GeoLayerOptimizeMixin extends GeoRenderLayer<GeoAnimatable
             int packedOverlay,
             int colour
     ) {
+        boolean optEnabled = OptimizerConfig.isEnabled(OptimizerConfig.OPTIMIZE_GLOW_LAYERS_AND_RENDER_TYPES);
+        if (optEnabled && animatable instanceof Entity entity) {
+            Minecraft mc = Minecraft.getInstance();
+            if (mc.player != null && entity.isInvisibleTo(mc.player) && !mc.shouldEntityAppearGlowing(entity)) {
+                return;
+            }
+        }
         renderer.reRender(model, poseStack, bufferSource, animatable, renderType, buffer, partialTick, packedLight, packedOverlay, colour);
-        if (!OptimizerConfig.isEnabled(OptimizerConfig.OPTIMIZE_GLOW_LAYERS_AND_RENDER_TYPES)
+        if (!optEnabled
+                && !ClientRenderCache.isShaderModLoaded()
                 && renderType != null
                 && bufferSource instanceof MultiBufferSource.BufferSource bs) {
             bs.endBatch(renderType);

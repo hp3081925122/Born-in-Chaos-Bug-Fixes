@@ -3,8 +3,10 @@ package com.hp.borninchaosoptimizer.mixin;
 import com.hp.borninchaosoptimizer.config.OptimizerConfig;
 import net.mcreator.borninchaosv.procedures.LifestealerAtackProcedure;
 import net.mcreator.borninchaosv.procedures.LifestealerPriObnovlieniiTikaSushchnostiProcedure;
+import net.mcreator.borninchaosv.procedures.LordPumpkinheadPriObnovlieniiTikaSushchnostiProcedure;
 import net.mcreator.borninchaosv.procedures.LordPumpkinheadTicProcedure;
 import net.mcreator.borninchaosv.procedures.PhantomCreeperKoghdaSushchnostRanienaProcedure;
+import net.mcreator.borninchaosv.procedures.PumpkinSpiritPriObnovlieniiTaktaSushchnostiProcedure;
 import net.mcreator.borninchaosv.procedures.SerPumpkinheadGProcedure;
 import net.mcreator.borninchaosv.procedures.SupremeBonecallerPriObnovlieniiTaktaSushchnostiProcedure;
 import net.mcreator.borninchaosv.procedures.WithoutHorsePProcedure;
@@ -25,10 +27,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
         LifestealerAtackProcedure.class,
         LifestealerPriObnovlieniiTikaSushchnostiProcedure.class,
         SupremeBonecallerPriObnovlieniiTaktaSushchnostiProcedure.class,
+        LordPumpkinheadPriObnovlieniiTikaSushchnostiProcedure.class,
         LordPumpkinheadTicProcedure.class,
         SerPumpkinheadGProcedure.class,
         WithoutHorsePProcedure.class,
-        PhantomCreeperKoghdaSushchnostRanienaProcedure.class
+        PhantomCreeperKoghdaSushchnostRanienaProcedure.class,
+        PumpkinSpiritPriObnovlieniiTaktaSushchnostiProcedure.class
 }, remap = false)
 public abstract class BossPhaseDuplicateSpawnFixMixin {
     @Unique

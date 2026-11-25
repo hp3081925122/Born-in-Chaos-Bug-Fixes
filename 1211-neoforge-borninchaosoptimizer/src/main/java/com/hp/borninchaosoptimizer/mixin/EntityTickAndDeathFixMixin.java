@@ -92,6 +92,9 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
  * 统一优化与修复原模组全部 83 种生物的三大共性缺陷：
@@ -186,16 +189,35 @@ import org.spongepowered.asm.mixin.Unique;
 })
 public abstract class EntityTickAndDeathFixMixin extends LivingEntity {
     @Unique
+    private boolean bic$inBicBaseTick;
+
+    @Unique
+    private boolean bic$dimensionsInitialized;
+
+    @Unique
     private Pose bic$lastDimensionsPose;
 
     @Unique
     private float bic$lastDimensionsScale = Float.NaN;
 
     @Unique
+    private boolean bic$lastDimensionsBaby;
+
+    @Unique
     private boolean bic$xpDroppedOnce = false;
 
     protected EntityTickAndDeathFixMixin(EntityType<? extends LivingEntity> entityType, Level level) {
         super(entityType, level);
+    }
+
+    @Inject(method = "baseTick", at = @At("HEAD"))
+    private void bic$enterBaseTick(CallbackInfo ci) {
+        this.bic$inBicBaseTick = true;
+    }
+
+    @Inject(method = "baseTick", at = @At("RETURN"))
+    private void bic$exitBaseTick(CallbackInfo ci) {
+        this.bic$inBicBaseTick = false;
     }
 
     @Override
@@ -206,11 +228,20 @@ public abstract class EntityTickAndDeathFixMixin extends LivingEntity {
         }
         Pose currentPose = this.getPose();
         float currentScale = this.getScale();
-        if (this.firstTick || currentPose != this.bic$lastDimensionsPose || currentScale != this.bic$lastDimensionsScale) {
-            this.bic$lastDimensionsPose = currentPose;
-            this.bic$lastDimensionsScale = currentScale;
-            super.refreshDimensions();
+        boolean currentBaby = this.isBaby();
+        if (this.bic$inBicBaseTick
+                && this.bic$dimensionsInitialized
+                && !this.firstTick
+                && currentPose == this.bic$lastDimensionsPose
+                && currentScale == this.bic$lastDimensionsScale
+                && currentBaby == this.bic$lastDimensionsBaby) {
+            return;
         }
+        this.bic$dimensionsInitialized = true;
+        this.bic$lastDimensionsPose = currentPose;
+        this.bic$lastDimensionsScale = currentScale;
+        this.bic$lastDimensionsBaby = currentBaby;
+        super.refreshDimensions();
     }
 
     @Override

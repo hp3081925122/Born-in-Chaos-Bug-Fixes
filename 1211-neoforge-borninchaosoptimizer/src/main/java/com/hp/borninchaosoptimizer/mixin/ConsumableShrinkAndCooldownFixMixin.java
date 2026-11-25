@@ -151,10 +151,7 @@ public abstract class ConsumableShrinkAndCooldownFixMixin {
     }
 
     @Redirect(
-            method = {
-                    "execute(Lnet/minecraft/world/level/LevelAccessor;DDDLnet/minecraft/world/entity/Entity;Lnet/minecraft/world/item/ItemStack;)V",
-                    "execute(Lnet/minecraft/world/level/LevelAccessor;DDDLnet/minecraft/world/entity/Entity;Lnet/minecraft/world/entity/Entity;)V"
-            },
+            method = "execute*",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemCooldowns;addCooldown(Lnet/minecraft/world/item/Item;I)V"),
             require = 0
     )
@@ -168,7 +165,14 @@ public abstract class ConsumableShrinkAndCooldownFixMixin {
             cooldowns.addCooldown(lastConsumed, ticks);
             return;
         }
-        cooldowns.addCooldown(item, ticks);
+        if (item != Items.AIR) {
+            cooldowns.addCooldown(item, ticks);
+        }
+    }
+
+    @Inject(method = "execute*", at = @At("RETURN"), require = 0)
+    private static void bic$clearConsumedItemThreadLocal(CallbackInfo ci) {
+        BIC_LAST_CONSUMED_ITEM.remove();
     }
 
     @Unique
@@ -177,7 +181,9 @@ public abstract class ConsumableShrinkAndCooldownFixMixin {
             stack.shrink(amount);
             return;
         }
-        BIC_LAST_CONSUMED_ITEM.set(stack.getItem());
+        if (!stack.isEmpty()) {
+            BIC_LAST_CONSUMED_ITEM.set(stack.getItem());
+        }
         if (!SafeClientBridge.isCreative(user)) {
             stack.shrink(amount);
         }

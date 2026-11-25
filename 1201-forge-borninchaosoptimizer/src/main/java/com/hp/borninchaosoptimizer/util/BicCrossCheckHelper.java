@@ -19,7 +19,9 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.common.ToolActions;
@@ -32,6 +34,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public final class BicCrossCheckHelper {
     private static final ResourceLocation BONK_HIT_ID = ResourceLocation.tryParse("born_in_chaos_v1:bonk_hit");
     private static final AdvancementProgress COMPLETED_DUMMY_PROGRESS = new CompletedDummyProgress();
+    private static final ThreadLocal<Item> CONSUMED_ITEM_HOLDER = new ThreadLocal<>();
 
     private BicCrossCheckHelper() {
     }
@@ -193,6 +196,78 @@ public final class BicCrossCheckHelper {
             }
         }
         return broken;
+    }
+
+    /**
+     * 安全扣减消耗品数量：在数量归零前记录真实物品引用供冷却使用，并在创造或旁观模式下免扣数量。
+     */
+    public static void safeShrinkConsumable(ItemStack stack, int amount, Entity actor) {
+        if (!BicOptimizerConfig.getBoolean(BicOptimizerConfig.COMMON.enableGlobalFixes)
+                || !BicOptimizerConfig.getBoolean(BicOptimizerConfig.COMMON.fixConsumableCooldownAndCreative)) {
+            stack.shrink(amount);
+            return;
+        }
+        if (!stack.isEmpty()) {
+            CONSUMED_ITEM_HOLDER.set(stack.getItem());
+        }
+        if (!isCreativeOrSpectator(actor)) {
+            stack.shrink(amount);
+        }
+    }
+
+    /**
+     * 当单格消耗品被 shrink(1) 清空成空气栈后，还原其真实 Item 类型施加冷却。
+     */
+    public static void restoreActualItemCooldown(ItemCooldowns cooldowns, Item item, int ticks) {
+        Item captured = CONSUMED_ITEM_HOLDER.get();
+        CONSUMED_ITEM_HOLDER.remove();
+        Item realItem = (item == Items.AIR && captured != null && captured != Items.AIR) ? captured : item;
+        if (realItem != Items.AIR) {
+            cooldowns.addCooldown(realItem, ticks);
+        }
+    }
+
+    /**
+     * 清理当前线程暂存的消耗品引用。
+     */
+    public static void clearConsumedItemThreadLocal() {
+        CONSUMED_ITEM_HOLDER.remove();
+    }
+
+    /**
+     * 魔灯与坐骑交互扣减物品时应用创造模式保护。
+     */
+    public static void shrinkLampItem(ItemStack stack, int amount, Entity actor) {
+        if (!BicOptimizerConfig.getBoolean(BicOptimizerConfig.COMMON.enableGlobalFixes)
+                || !BicOptimizerConfig.getBoolean(BicOptimizerConfig.COMMON.fixConsumableCooldownAndCreative)
+                || !isCreativeOrSpectator(actor)) {
+            stack.shrink(amount);
+        }
+    }
+
+    /**
+     * 当手持堆叠魔灯大于 1 时保留手中剩余堆叠，将新生成的空灯或满灯放入玩家背包或掉落。
+     */
+    public static void preserveRemainingLampStack(LivingEntity holder, InteractionHand hand, ItemStack resultStack) {
+        if (!BicOptimizerConfig.getBoolean(BicOptimizerConfig.COMMON.enableGlobalFixes)
+                || !BicOptimizerConfig.getBoolean(BicOptimizerConfig.COMMON.fixConsumableCooldownAndCreative)) {
+            holder.setItemInHand(hand, resultStack);
+            return;
+        }
+        ItemStack remaining = holder.getItemInHand(hand);
+        if (remaining.isEmpty()) {
+            holder.setItemInHand(hand, resultStack);
+            return;
+        }
+        if (holder instanceof Player player) {
+            if (!isCreativeOrSpectator(player) || !player.getInventory().contains(resultStack)) {
+                if (!player.getInventory().add(resultStack)) {
+                    player.drop(resultStack, false);
+                }
+            }
+        } else {
+            holder.setItemInHand(hand, resultStack);
+        }
     }
 
     private static final class CompletedDummyProgress extends AdvancementProgress {

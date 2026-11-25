@@ -1,0 +1,44 @@
+{
+  "files": [
+    {
+      "minecraft": "1.20.1",
+      "artifact": "e:\\模组\\发cf的模组\\AAA-优化模组\\生于混沌优化\\1201-forge-borninchaosoptimizer\\build\\libs\\borninchaosoptimizer-1.20.1-forge-1.0.0.jar",
+      "sha256": "331750a3ef855bafcb36e92a16d875b0a9555a5c6f39241c7c6b26d8bac0a5ca",
+      "metadata": {
+        "changelog": "## Initial Release (1.0.0)\n\n- Requires **Born in Chaos** `1.7.5` or newer.\n- Fixes dedicated server `NoClassDefFoundError` crashes, custom AI odd-tick NPEs, missing-advancement NPEs, and Mother Spider `SynchedEntityData` mismatches.\n- Fixes `workQueue` delayed-task memory leaks and replaces permanent entity UUID scoreboard entries (`bloc`, `blocc`, `eat`) with entity NBT while cleaning legacy save bloat on startup.\n- Fixes Boss phase-2 health checks, Boss teleporting into walls/lava, same-tick duplicate phase spawns, immune-damage hurt triggers, shield-disable bugs, Nut Hammer enchanted-helmet duplication, projectile pickup duplication, seasonal gear overwrites, single-stack consumable 0-cooldown bugs, Creative/Spectator consumption, potion renewal expiry triggers, and AOE loot destruction.\n\n---\n\n## 首个正式版（1.0.0）\n\n- 前置要求 **生于混沌（Born in Chaos）** `1.7.5` 及以上版本。\n- 修复专用服务端 `NoClassDefFoundError` 崩服、自定义远程 AI 奇数刻空指针、裁剪进度空指针以及母蜘蛛实体数据同步注册类填错。\n- 修复全局延时任务队列（`workQueue`）内存泄漏，并将门骑士、碎骨骷髅、刺壳蟹永久写入计分板的实体 UUID 改为实体 NBT，同时在开服时自动清理旧存档残留计分项。\n- 修复 Boss 二阶段血量误判、受击瞬移卡墙/进岩浆、同刻重复刷双倍二阶段、免疫伤害误触发技能、破盾失效、坚果锤刷附魔头盔、弹射物白嫖材料、区块重载覆盖怪物拾取装备、单格消耗品 0 冷却、创造/旁观误扣道具与耐久、药水续杯误触发到期惩罚，以及 AOE 误毁地面掉落物与展示框等缺陷。",
+        "changelogType": "markdown",
+        "displayName": "1.20.1-Forge-Born in Chaos Optimizer-1.0.0",
+        "gameVersions": [9990, 7498, 8326, 9638, 9639],
+        "releaseType": "release",
+        "relations": {
+          "projects": [
+            {
+              "slug": "born-in-chaos",
+              "type": "requiredDependency"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "minecraft": "1.21.1",
+      "artifact": "e:\\模组\\发cf的模组\\AAA-优化模组\\生于混沌优化\\1211-neoforge-borninchaosoptimizer\\build\\libs\\borninchaosoptimizer-1.21.1-neoforge-1.0.0.jar",
+      "sha256": "855fe1d8164f1bc0729ad998b4769040bbd57abaa4d66cfe50b9aeb9b5193212",
+      "metadata": {
+        "changelog": "## Initial Release (1.0.0)\n\n- Requires **Born in Chaos** `1.7.6` or newer.\n- Fixes dedicated server `NoClassDefFoundError` crashes, custom AI odd-tick NPEs, missing-advancement NPEs, and player variable sync edge cases.\n- Fixes `workQueue` delayed-task memory leaks and replaces permanent entity UUID scoreboard entries (`bloc`, `blocc`, `eat`) with entity NBT while cleaning legacy save bloat on startup.\n- Fixes Boss phase-2 health checks, Boss teleporting into walls/lava, same-tick duplicate phase spawns, double death XP drops, immune-damage hurt triggers, shield-disable bugs, Nut Hammer enchanted-helmet duplication, projectile pickup duplication, seasonal gear overwrites, single-stack consumable 0-cooldown bugs, Creative/Spectator consumption, manual effect-removal premature penalties, and AOE loot destruction.\n\n---\n\n## 首个正式版（1.0.0）\n\n- 前置要求 **生于混沌（Born in Chaos）** `1.7.6` 及以上版本。\n- 修复专用服务端 `NoClassDefFoundError` 崩服、自定义远程 AI 奇数刻空指针、裁剪进度空指针以及玩家变量同步异常。\n- 修复全局延时任务队列（`workQueue`）内存泄漏，并将门骑士、碎骨骷髅、刺壳蟹永久写入计分板的实体 UUID 改为实体 NBT，同时在开服时自动清理旧存档残留计分项。\n- 修复 Boss 二阶段血量误判、受击瞬移卡墙/进岩浆、同刻重复刷双倍二阶段、死亡双倍经验、免疫伤害误触发技能、破盾失效、坚果锤刷附魔头盔、弹射物白嫖材料、区块重载覆盖怪物拾取装备、单格消耗品 0 冷却、创造/旁观误扣道具与耐久、主动驱散效果误触发到期惩罚，以及 AOE 误毁地面掉落物与展示框等缺陷。",
+        "changelogType": "markdown",
+        "displayName": "1.21.1-NeoForge-Born in Chaos Optimizer-1.0.0",
+        "gameVersions": [11779, 10150, 11135, 9638, 9639],
+        "releaseType": "release",
+        "relations": {
+          "projects": [
+            {
+              "slug": "born-in-chaos",
+              "type": "requiredDependency"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

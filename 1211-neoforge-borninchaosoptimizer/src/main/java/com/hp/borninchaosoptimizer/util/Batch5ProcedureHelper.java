@@ -24,6 +24,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
@@ -362,7 +363,7 @@ public final class Batch5ProcedureHelper {
     /**
      * 临时方块实体倒计时通用优化：单次读取并递减 NBT 计数，不发送每刻整块 NBT 同步包与客户端区块重绘标记。
      */
-    public static double decrementBlockEntityTimer(LevelAccessor world, BlockPos pos, String tagKey) {
+    public static double decrementBlockEntityTimer(LevelAccessor world, BlockPos pos, String tagKey, double step) {
         if (world.isClientSide()) {
             return -1.0;
         }
@@ -371,7 +372,7 @@ public final class Batch5ProcedureHelper {
             return -1.0;
         }
         CompoundTag data = blockEntity.getPersistentData();
-        double next = data.getDouble(tagKey) - 1.0;
+        double next = data.getDouble(tagKey) - step;
         data.putDouble(tagKey, next);
         blockEntity.setChanged();
         return next;
@@ -381,8 +382,9 @@ public final class Batch5ProcedureHelper {
         if (world.isClientSide()) {
             return;
         }
+        double step = Math.max(1, OptimizerConfig.getInt(OptimizerConfig.TEMPORARY_BLOCK_TICK_INTERVAL));
         BlockPos pos = BlockPos.containing(x, y, z);
-        if (decrementBlockEntityTimer(world, pos, "splitting") <= 0.0) {
+        if (decrementBlockEntityTimer(world, pos, "splitting", step) <= 0.0) {
             world.destroyBlock(pos, false);
             world.setBlock(pos, Blocks.WATER.defaultBlockState(), 3);
         }
@@ -392,13 +394,15 @@ public final class Batch5ProcedureHelper {
         if (world.isClientSide()) {
             return;
         }
+        double step = Math.max(1, OptimizerConfig.getInt(OptimizerConfig.TEMPORARY_BLOCK_TICK_INTERVAL));
         BlockPos pos = BlockPos.containing(x, y, z);
-        if (decrementBlockEntityTimer(world, pos, "destructible") <= 0.0) {
+        if (decrementBlockEntityTimer(world, pos, "destructible", step) <= 0.0) {
             world.destroyBlock(pos, false);
         }
     }
 
     public static void executePuddleTick(LevelAccessor world, double x, double y, double z, boolean intoxication) {
+        int step = Math.max(1, OptimizerConfig.getInt(OptimizerConfig.TEMPORARY_BLOCK_TICK_INTERVAL));
         if (world instanceof ServerLevel serverLevel) {
             serverLevel.sendParticles(
                     intoxication ? BornInChaosV1ModParticleTypes.INTOXICATIND_BOMB_PART.get() : BornInChaosV1ModParticleTypes.STIMULATINGBUBBLES.get(),
@@ -406,7 +410,7 @@ public final class Batch5ProcedureHelper {
             );
         }
         BlockPos pos = BlockPos.containing(x, y, z);
-        if (!world.isClientSide() && decrementBlockEntityTimer(world, pos, "puddle") <= 0.0) {
+        if (!world.isClientSide() && decrementBlockEntityTimer(world, pos, "puddle", step) <= 0.0) {
             world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
             if (world instanceof ServerLevel serverLevel) {
                 serverLevel.sendParticles(BornInChaosV1ModParticleTypes.DARK_SMOKE.get(), x + 0.5, y + 0.5, z + 0.5, 5, 0.3, 0.3, 0.3, 0.1);
@@ -468,9 +472,18 @@ public final class Batch5ProcedureHelper {
     }
 
     /**
-     * 安全检查目标落点是否适合南瓜爵士/南瓜头瞬移（双格高无遮挡，可选检测下方非水/岩浆）。
+     * 按实体真实碰撞箱与下方流体环境校验瞬移落点安全性：
+     * 1. 确保区块已加载且实体完整碰撞箱在目标点无任何方块挤压（杜绝站在格边或半格偏移时半边身体嵌进实心墙窒息）；
+     * 2. 检查目标脚部及下方 2 格内是否存在岩浆（可选同时排除深水），防止悬空瞬移后垂直坠入岩浆池。
      */
-    public static boolean isSafeTeleportSpot(LevelAccessor world, double tx, double ty, double tz, boolean checkFluidBelow) {
+    public static boolean isSafeEntityTeleportSpot(
+            LevelAccessor world,
+            Entity entity,
+            double tx,
+            double ty,
+            double tz,
+            boolean checkWaterBelow
+    ) {
         BlockPos feetPos = BlockPos.containing(tx, ty, tz);
         if (world instanceof Level level && !level.hasChunkAt(feetPos)) {
             return false;
@@ -483,11 +496,33 @@ public final class Batch5ProcedureHelper {
         if (feetState.canOcclude() && !feetState.is(Blocks.SNOW)) {
             return false;
         }
-        if (checkFluidBelow) {
-            Block below = world.getBlockState(feetPos.below()).getBlock();
-            return below != Blocks.LAVA && below != Blocks.WATER;
+        if (entity != null) {
+            AABB targetBox = entity.getDimensions(entity.getPose()).makeBoundingBox(tx, ty, tz);
+            if (!world.noCollision(entity, targetBox.deflate(1.0E-4))) {
+                return false;
+            }
+        }
+        for (int down = 0; down <= 2; down++) {
+            BlockPos checkPos = down == 0 ? feetPos : feetPos.below(down);
+            BlockState state = world.getBlockState(checkPos);
+            if (state.getFluidState().is(FluidTags.LAVA) || state.is(Blocks.LAVA)) {
+                return false;
+            }
+            if (checkWaterBelow && (state.getFluidState().is(FluidTags.WATER) || state.is(Blocks.WATER))) {
+                return false;
+            }
+            if (down > 0 && state.canOcclude()) {
+                break;
+            }
         }
         return true;
+    }
+
+    /**
+     * 安全检查目标落点是否适合南瓜爵士/南瓜头瞬移（兼容无实体参数的调用入口）。
+     */
+    public static boolean isSafeTeleportSpot(LevelAccessor world, double tx, double ty, double tz, boolean checkFluidBelow) {
+        return isSafeEntityTeleportSpot(world, null, tx, ty, tz, checkFluidBelow);
     }
 
     public static void teleportEntityAndSyncPlayer(Entity entity, double tx, double ty, double tz) {

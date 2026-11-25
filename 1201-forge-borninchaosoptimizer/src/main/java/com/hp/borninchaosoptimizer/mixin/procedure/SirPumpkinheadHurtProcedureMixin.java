@@ -58,17 +58,20 @@ public abstract class SirPumpkinheadHurtProcedureMixin {
             living.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 150, 1, false, false));
             living.addEffect(new MobEffectInstance(magicDepletion, 200, 0, false, false));
 
-            bicOpt$trySummonMrPumpkin(serverLevel, originPos, x - 2.0, y, z + 0.5, entity);
-            bicOpt$trySummonMrPumpkin(serverLevel, originPos, x + 2.0, y, z + 0.5, entity);
+            double cx = net.minecraft.util.Mth.floor(x) + 0.5;
+            double cz = net.minecraft.util.Mth.floor(z) + 0.5;
+            double ty = y + 1.0;
+            bicOpt$trySummonMrPumpkin(serverLevel, originPos, cx - 2.0, y, cz, entity);
+            bicOpt$trySummonMrPumpkin(serverLevel, originPos, cx + 2.0, y, cz, entity);
 
-            if (BossTeleportHelper.isSafeTwoBlockSpace(serverLevel, x + 8.0, y, z + 0.5)) {
-                BossTeleportHelper.teleportEntity(entity, x + 8.0, y + 1.0, z + 0.5);
-            } else if (BossTeleportHelper.isSafeTwoBlockSpace(serverLevel, x - 8.0, y, z + 0.5)) {
-                BossTeleportHelper.teleportEntity(entity, x - 8.0, y + 1.0, z + 0.5);
-            } else if (BossTeleportHelper.isSafeTwoBlockSpace(serverLevel, x + 0.5, y, z + 8.0)) {
-                BossTeleportHelper.teleportEntity(entity, x + 0.5, y + 1.0, z + 8.0);
-            } else if (BossTeleportHelper.isSafeTwoBlockSpace(serverLevel, x + 0.5, y, z - 8.0)) {
-                BossTeleportHelper.teleportEntity(entity, x + 0.5, y + 1.0, z - 8.0);
+            if (BossTeleportHelper.isSafeEntityTeleportSpot(serverLevel, entity, cx + 8.0, ty, cz, false)) {
+                BossTeleportHelper.teleportEntity(entity, cx + 8.0, ty, cz);
+            } else if (BossTeleportHelper.isSafeEntityTeleportSpot(serverLevel, entity, cx - 8.0, ty, cz, false)) {
+                BossTeleportHelper.teleportEntity(entity, cx - 8.0, ty, cz);
+            } else if (BossTeleportHelper.isSafeEntityTeleportSpot(serverLevel, entity, cx, ty, cz + 8.0, false)) {
+                BossTeleportHelper.teleportEntity(entity, cx, ty, cz + 8.0);
+            } else if (BossTeleportHelper.isSafeEntityTeleportSpot(serverLevel, entity, cx, ty, cz - 8.0, false)) {
+                BossTeleportHelper.teleportEntity(entity, cx, ty, cz - 8.0);
             }
 
             serverLevel.sendParticles(ParticleTypes.POOF, x, y, z, 9, 1.0, 1.0, 1.0, 1.0);

@@ -34,14 +34,14 @@ public abstract class LordPumpkinheadAttackFixMixin {
             return;
         }
         ci.cancel();
-        if (!(sourceentity instanceof LordPumpkinheadEntity boss) || !(entity instanceof LivingEntity target)) {
+        if (world.isClientSide() || !(sourceentity instanceof LordPumpkinheadEntity boss) || !(entity instanceof LivingEntity target)) {
             return;
         }
         if (!(entity instanceof Mob || entity instanceof Player)) {
             return;
         }
-        boolean aboveHalfHealth = boss.getHealth() > boss.getMaxHealth() * 0.5f;
-        if (aboveHalfHealth) {
+        boolean abovePhaseThreshold = boss.getHealth() > boss.getMaxHealth() * (283.0f / 666.0f);
+        if (abovePhaseThreshold) {
             if (!target.hasEffect(BornInChaosV1ModMobEffects.SOUL_STRATIFICATION)) {
                 if (!target.level().isClientSide()) {
                     target.addEffect(new MobEffectInstance(BornInChaosV1ModMobEffects.SOUL_STRATIFICATION, 160, 0));

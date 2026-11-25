@@ -32,7 +32,7 @@ public abstract class LordTheHeadlessAttackFixMixin {
             return;
         }
         ci.cancel();
-        if (!(sourceentity instanceof LordTheHeadlessEntity boss) || !(entity instanceof LivingEntity target)) {
+        if (world.isClientSide() || !(sourceentity instanceof LordTheHeadlessEntity boss) || !(entity instanceof LivingEntity target)) {
             return;
         }
         if (!(entity instanceof Mob || entity instanceof Player)) {

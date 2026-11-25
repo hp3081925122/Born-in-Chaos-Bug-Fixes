@@ -20,7 +20,8 @@ apply plugin: 'org.spongepowered.mixin'
 
 repositories {
     flatDir {
-        dirs 'D:/AI临时文件/生于混沌优化/1201forge/libs'
+        dirs 'D:/AI临时文件/生于混沌优化/1201forge/libs',
+             'E:/模组/自用工具源码+产物/Minecraft Self MCP/Minecraft Self MCP-1.20.1-Forge/build/libs'
         content {
             includeGroup 'local'
         }
@@ -63,6 +64,7 @@ minecraft {
 
         client {
             property 'forge.enabledGameTestNamespaces', project.mod_id
+            property 'selfmcp.window', 'hidden'
         }
 
         server {
@@ -95,9 +97,13 @@ dependencies {
     implementation fg.deobf("local:geckolib-forge-1.20.1:4.8.3")
 
     implementation fg.deobf("curse.maven:jei-238222:8778011")
-    // Just Enough Characters 为客户端专用模组，runServer 时自动排除以避免专用服务端加载失败
+    // Just Enough Characters 与 self_mcp 为客户端专用模组，runServer 时自动排除以避免专用服务端加载干扰
     if (!gradle.startParameter.taskNames.any { it.toLowerCase().contains('server') }) {
         implementation fg.deobf("curse.maven:just-enough-characters-250702:8771525")
+        def selfMcpJar = file('E:/模组/自用工具源码+产物/Minecraft Self MCP/Minecraft Self MCP-1.20.1-Forge/build/libs/self_mcp-1.20.1-forge-0.3.0.jar')
+        if (selfMcpJar.exists()) {
+            runtimeOnly fg.deobf("local:self_mcp-1.20.1-forge:0.3.0")
+        }
     }
     implementation fg.deobf("curse.maven:jade-324717:8479276")
 }
@@ -109,6 +115,7 @@ tasks.named('processResources', ProcessResources).configure {
             forge_version: project.forge_version,
             forge_version_range: project.forge_version_range,
             loader_version_range: project.loader_version_range,
+            born_in_chaos_version_range: project.born_in_chaos_version_range,
             mod_id: project.mod_id,
             mod_name: project.mod_name,
             mod_license: project.mod_license,

@@ -196,7 +196,13 @@ public abstract class GeoEntityRendererOptimizeMixin<T extends Entity & GeoAnima
     @Unique
     private ResourceLocation bic$lastRenderTypeKey;
     @Unique
-    private RenderType bic$lastTranslucentRenderType;
+    private boolean bic$lastInvisibleState;
+    @Unique
+    private boolean bic$lastOpaqueConfigState;
+    @Unique
+    private int bic$lastRenderTypeEpoch = -1;
+    @Unique
+    private RenderType bic$lastResolvedRenderType;
 
     protected GeoEntityRendererOptimizeMixin(EntityRendererProvider.Context renderManager, GeoModel<T> model) {
         super(renderManager, model);
@@ -232,12 +238,24 @@ public abstract class GeoEntityRendererOptimizeMixin<T extends Entity & GeoAnima
         if (!OptimizerConfig.isEnabled(OptimizerConfig.OPTIMIZE_GLOW_LAYERS_AND_RENDER_TYPES)) {
             return RenderType.entityTranslucent(texture);
         }
-        if (texture != null && texture == this.bic$lastRenderTypeKey && this.bic$lastTranslucentRenderType != null) {
-            return this.bic$lastTranslucentRenderType;
+        T current = this.getAnimatable();
+        boolean invisible = current != null && current.isInvisible();
+        boolean opaqueOpt = OptimizerConfig.isEnabled(OptimizerConfig.OPTIMIZE_OPAQUE_ENTITY_RENDER_TYPES);
+        int epoch = ClientRenderCache.getReloadEpoch();
+        if (texture != null
+                && texture == this.bic$lastRenderTypeKey
+                && invisible == this.bic$lastInvisibleState
+                && opaqueOpt == this.bic$lastOpaqueConfigState
+                && epoch == this.bic$lastRenderTypeEpoch
+                && this.bic$lastResolvedRenderType != null) {
+            return this.bic$lastResolvedRenderType;
         }
-        RenderType resolved = ClientRenderCache.entityTranslucent(texture);
+        RenderType resolved = ClientRenderCache.resolveEntityRenderType(current, texture);
         this.bic$lastRenderTypeKey = texture;
-        this.bic$lastTranslucentRenderType = resolved;
+        this.bic$lastInvisibleState = invisible;
+        this.bic$lastOpaqueConfigState = opaqueOpt;
+        this.bic$lastRenderTypeEpoch = epoch;
+        this.bic$lastResolvedRenderType = resolved;
         return resolved;
     }
 }

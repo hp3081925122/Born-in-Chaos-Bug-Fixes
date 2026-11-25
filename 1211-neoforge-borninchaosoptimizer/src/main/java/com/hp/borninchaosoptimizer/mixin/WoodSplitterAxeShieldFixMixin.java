@@ -55,9 +55,14 @@ public abstract class WoodSplitterAxeShieldFixMixin {
         if ((entity instanceof Player || entity instanceof Mob) && target.isBlocking()) {
             ItemStack useItem = target.getUseItem();
             if (useItem.getItem() instanceof ShieldItem || useItem.canPerformAction(ItemAbilities.SHIELD_BLOCK)) {
+                net.minecraft.world.item.Item shieldItem = useItem.getItem();
                 if (world instanceof ServerLevel) {
                     useItem.hurtAndBreak(500, target, LivingEntity.getSlotForHand(target.getUsedItemHand()));
                 }
+                if (target instanceof Player player) {
+                    player.getCooldowns().addCooldown(shieldItem, 100);
+                }
+                target.stopUsingItem();
                 Batch5ProcedureHelper.playSoundBothSides(world, x, y, z, "entity.zombie.break_wooden_door", 0.6f, 1.0f);
                 if (world instanceof ServerLevel serverLevel) {
                     serverLevel.sendParticles(ParticleTypes.CRIT, x, y, z, 5, 0.3, 0.5, 0.3, 0.1);

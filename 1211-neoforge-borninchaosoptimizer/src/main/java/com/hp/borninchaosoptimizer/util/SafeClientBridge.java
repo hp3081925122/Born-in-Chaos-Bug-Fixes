@@ -39,14 +39,16 @@ public final class SafeClientBridge {
      */
     public static boolean isCreative(Entity entity) {
         if (entity instanceof ServerPlayer serverPlayer) {
-            return serverPlayer.gameMode.getGameModeForPlayer() == GameType.CREATIVE;
+            GameType mode = serverPlayer.gameMode.getGameModeForPlayer();
+            return mode == GameType.CREATIVE || mode == GameType.SPECTATOR;
         }
         if (entity instanceof Player player) {
-            if (player.getAbilities().instabuild) {
+            if (player.getAbilities().instabuild || player.isSpectator()) {
                 return true;
             }
             if (entity.level().isClientSide() && FMLEnvironment.dist == Dist.CLIENT) {
-                return ClientOnly.hasGameMode(player, GameType.CREATIVE);
+                return ClientOnly.hasGameMode(player, GameType.CREATIVE)
+                        || ClientOnly.hasGameMode(player, GameType.SPECTATOR);
             }
         }
         return false;

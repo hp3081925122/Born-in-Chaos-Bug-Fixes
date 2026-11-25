@@ -1,15 +1,15 @@
 {
-  "name": "Born in Chaos Optimizer",
-  "summary": "A performance optimization and bug-fix addon for Born in Chaos, fixing server crashes, memory/scoreboard leaks, pathfinding lag spikes, glow-layer FPS drops, and gameplay bugs while keeping 100% original mechanics.",
+  "name": "Born in Chaos Bug Fixes",
+  "summary": "A bug-fix and stability addon for Born in Chaos, fixing server crashes, memory/scoreboard leaks, runaway mob summoning, Boss combat bugs, and item duplication exploits while keeping original mechanics intact.",
   "license": "All Rights Reserved",
   "distribution": "Allow distribution to 3rd party",
   "allowComments": true,
   "dropdowns": [
     ["Class", "Mods"],
-    ["Main category", "Performance"],
-    ["Additional categories", "Bug Fixes"],
+    ["Main category", "Bug Fixes"],
     ["Additional categories", "Addons"],
-    ["Additional categories", "Server Utility"]
+    ["Additional categories", "Server Utility"],
+    ["Additional categories", "Performance"]
   ],
   "description": "description.md",
   "icon": "cf-project-icon.png"

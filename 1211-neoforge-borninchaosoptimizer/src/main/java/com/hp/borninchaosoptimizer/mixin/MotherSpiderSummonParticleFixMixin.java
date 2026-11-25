@@ -1,6 +1,7 @@
 package com.hp.borninchaosoptimizer.mixin;
 
 import com.hp.borninchaosoptimizer.config.OptimizerConfig;
+import com.hp.borninchaosoptimizer.util.BicSummonCapHelper;
 import net.mcreator.borninchaosv.init.BornInChaosV1ModEntities;
 import net.mcreator.borninchaosv.init.BornInChaosV1ModMobEffects;
 import net.mcreator.borninchaosv.init.BornInChaosV1ModParticleTypes;
@@ -50,7 +51,7 @@ public abstract class MotherSpiderSummonParticleFixMixin {
         BlockPos pos = BlockPos.containing(sx, sy, sz);
         BlockState state = serverLevel.getBlockState(pos);
         if (!state.canOcclude() || state.is(Blocks.SNOW)) {
-            Entity baby = BornInChaosV1ModEntities.BABY_SPIDER.get().spawn(serverLevel, pos, MobSpawnType.MOB_SUMMONED);
+            Entity baby = BicSummonCapHelper.spawnWithCap(BornInChaosV1ModEntities.BABY_SPIDER.get(), serverLevel, pos, MobSpawnType.MOB_SUMMONED);
             if (baby != null) {
                 baby.setYRot(mother.getYRot());
                 baby.setYBodyRot(mother.getYRot());

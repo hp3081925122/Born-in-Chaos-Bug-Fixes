@@ -31,7 +31,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 /**
  * 修复南瓜领主与无头领主攻击过程的两处同源严重逻辑缺陷：
  * 1. 原代码误将首领当前生命值与受击目标（如 20 血玩家）的最大生命值比较，导致二阶段挂活体炸弹技能永久沦为死代码；
- *    现按首领自身最大生命值百分比判定（南瓜领主 40% 血即 200/500，无头领主 50% 血）；
+ *    现按首领自身最大生命值百分比判定（南瓜领主 283/666 血即原式半血减 50，无头领主 50% 血）；
  * 2. 原无头领主在攻击非玩家生物时，误将力量 III（DAMAGE_BOOST）加到了挨打敌人身上而非首领自身。
  */
 @Mixin(value = {
@@ -71,7 +71,7 @@ public abstract class LordBossAttackProceduresMixin {
         }
 
         if (sourceentity instanceof LordPumpkinheadEntity boss) {
-            boolean phaseOne = boss.getHealth() > boss.getMaxHealth() * 0.4f;
+            boolean phaseOne = boss.getHealth() > boss.getMaxHealth() * (283.0f / 666.0f);
             if (phaseOne) {
                 if (!target.hasEffect(BornInChaosV1ModMobEffects.SOUL_STRATIFICATION.get())) {
                     target.addEffect(new MobEffectInstance(BornInChaosV1ModMobEffects.SOUL_STRATIFICATION.get(), 160, 0));

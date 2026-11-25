@@ -28,10 +28,15 @@ public final class OptimizerConfig {
     public static final ModConfigSpec.BooleanValue OPTIMIZE_FLYING_PATHFINDING;
     public static final ModConfigSpec.BooleanValue CAP_SUMMONED_PEST_DENSITY;
     public static final ModConfigSpec.IntValue MAX_NEARBY_PEST_COUNT;
+    public static final ModConfigSpec.IntValue ROTTEN_SMELL_PARTICLE_INTERVAL;
     public static final ModConfigSpec.BooleanValue FIX_CUSTOM_GOAL_NULL_TARGET;
     public static final ModConfigSpec.BooleanValue FIX_BOSS_TELEPORT_INTO_WALLS;
     public static final ModConfigSpec.BooleanValue FIX_ENTITY_HURT_ORDER_AND_SUMMON_PARTICLE;
     public static final ModConfigSpec.BooleanValue FIX_BOSS_AND_MINION_DUPLICATE_SPAWN;
+    public static final ModConfigSpec.BooleanValue CAP_MINION_AND_SWARM_SPAWNING;
+    public static final ModConfigSpec.IntValue MAX_NEARBY_SUMMONED_MINIONS;
+    public static final ModConfigSpec.IntValue MINION_CAP_RADIUS;
+    public static final ModConfigSpec.BooleanValue ALLOW_WILD_THORNSHELL_CRAB_DESPAWN;
 
     // 药水效果与状态循环
     public static final ModConfigSpec.BooleanValue REPLACE_LOST_ITEMS_COMMAND_WITH_API;
@@ -42,6 +47,7 @@ public final class OptimizerConfig {
     public static final ModConfigSpec.BooleanValue CACHE_CUSTOM_ARMOR_MODELS;
     public static final ModConfigSpec.BooleanValue CACHE_RAW_ANIMATIONS;
     public static final ModConfigSpec.BooleanValue OPTIMIZE_GLOW_LAYERS_AND_RENDER_TYPES;
+    public static final ModConfigSpec.BooleanValue OPTIMIZE_OPAQUE_ENTITY_RENDER_TYPES;
 
     // 方块、物品与弹射物兜底修复
     public static final ModConfigSpec.BooleanValue FIX_EQUIPMENT_DURABILITY_CONTEXT;
@@ -49,6 +55,7 @@ public final class OptimizerConfig {
     public static final ModConfigSpec.BooleanValue FIX_CONSUMABLE_CREATIVE_AND_COOLDOWN;
     public static final ModConfigSpec.BooleanValue FIX_TRAP_AND_AOE_NON_LIVING_DAMAGE;
     public static final ModConfigSpec.BooleanValue OPTIMIZE_TEMPORARY_BLOCK_ENTITY_SYNC;
+    public static final ModConfigSpec.IntValue TEMPORARY_BLOCK_TICK_INTERVAL;
     public static final ModConfigSpec.BooleanValue OPTIMIZE_EQUIPMENT_INVENTORY_TICKS;
     public static final ModConfigSpec.BooleanValue FIX_MISSING_ADVANCEMENT_NULL_CRASH;
     public static final ModConfigSpec.BooleanValue FIX_PROJECTILE_PICKUP_DUPE;
@@ -113,6 +120,9 @@ public final class OptimizerConfig {
         MAX_NEARBY_PEST_COUNT = builder
                 .comment("Maximum number of Corpse Flies or Maggots allowed within 16 blocks before effect-based spawning pauses / 半径 16 格内允许通过药水效果继续滋生的尸蝇或蛆虫最大数量")
                 .defineInRange("maxNearbyPestCount", 24, 4, 256);
+        ROTTEN_SMELL_PARTICLE_INTERVAL = builder
+                .comment("Server particle packet interval in ticks for Rotten Smell ambient flies (1 = every tick) / 腐臭效果服务端环境苍蝇粒子发包间隔刻数")
+                .defineInRange("rottenSmellParticleInterval", 4, 1, 40);
         FIX_CUSTOM_GOAL_NULL_TARGET = builder
                 .comment("Guard custom Goal.tick() implementations against null or dead targets on odd server AI ticks, and throttle per-tick RangedAttackGoal repathing / 为自定义 AI Goal.tick() 增加目标判空与存活保护，防止奇数刻空指针崩服，并限制远程攻击目标每刻高频重算寻路")
                 .define("fixCustomGoalNullTarget", true);
@@ -125,6 +135,18 @@ public final class OptimizerConfig {
         FIX_BOSS_AND_MINION_DUPLICATE_SPAWN = builder
                 .comment("Prevent same-tick duplicate Boss phase spawns (Lifestealer, Supreme Bonescaller, Lord/Sir Pumpkinhead, Phantom Creeper) and fix Controlled Baby Skeleton / Mr. Pumpkin respawning after expiration / 修复首领转阶段与幻影苦力怕同刻多段伤害刷出双倍首领，以及受控幼年骷髅与受控南瓜先生抗性到期消失后原地无限重生的缺陷")
                 .define("fixBossAndMinionDuplicateSpawn", true);
+        CAP_MINION_AND_SWARM_SPAWNING = builder
+                .comment("Cap nearby summoned minion and swarm entity density from Swarmer, Mother Spider, Bonescaller, Spirit Guide, and Undead Summon to prevent runaway entity flooding / 限制虫群宿主、母蜘蛛、唤骨者、灵魂向导、亡灵召唤等高频衍生召唤的局部同类实体密度上限，防止无限堆怪卡服")
+                .define("capMinionAndSwarmSpawning", true);
+        MAX_NEARBY_SUMMONED_MINIONS = builder
+                .comment("Maximum alive entities of the same summoned type allowed within minionCapRadius before pausing extra spawns / 检测半径内允许存在的同类衍生实体最大数量上限（默认 24，不影响正常战斗）")
+                .defineInRange("maxNearbySummonedMinions", 24, 4, 128);
+        MINION_CAP_RADIUS = builder
+                .comment("Radius in blocks to count nearby summoned minions/swarms / 衍生实体密度统计半径（格）")
+                .defineInRange("minionCapRadius", 24, 8, 64);
+        ALLOW_WILD_THORNSHELL_CRAB_DESPAWN = builder
+                .comment("Allow wild naturally spawned Thornshell Crabs to despawn when far away so they do not permanently clog the 10-slot CREATURE cap; fed, bred, named, or leashed crabs remain persistent / 修复野生刺壳蟹自然刷新却永久不消失导致长期占满 CREATURE（10 只）动物上限的缺陷；被玩家喂食、繁殖、命名或拴绳的刺壳蟹仍永久保留")
+                .define("allowWildThornshellCrabDespawn", true);
         builder.pop();
 
         builder.comment("Mob Effects Optimizations / 药水效果优化与缺陷修复").push("mob_effects");
@@ -149,6 +171,9 @@ public final class OptimizerConfig {
         OPTIMIZE_GLOW_LAYERS_AND_RENDER_TYPES = builder
                 .comment("Cache RenderType instances in GeoRenderLayers and entity renderers to reduce RenderType state churn and per-frame allocations while preserving all visual effects / 缓存发光层与实体渲染器的 RenderType 实例，在完全保留原有发光与半透明视觉表现的前提下降低每帧渲染状态开销")
                 .define("optimizeGlowLayersAndRenderTypes", true);
+        OPTIMIZE_OPAQUE_ENTITY_RENDER_TYPES = builder
+                .comment("Automatically use entityCutoutNoCull for non-translucent entity and 3D item textures while preserving entityTranslucent for semi-transparent spirits/wings / 自动检测贴图半透明像素：对纯不透明/二值镂空贴图使用 entityCutoutNoCull 以消除每帧 CPU 面片深度排序与肢体穿模，同时完整保留半透明生物表现")
+                .define("optimizeOpaqueEntityRenderTypes", true);
         builder.pop();
 
         builder.comment("Items, Blocks & Projectiles Fixes / 物品、方块与弹射物缺陷修复").push("items_and_blocks");
@@ -167,6 +192,9 @@ public final class OptimizerConfig {
         OPTIMIZE_TEMPORARY_BLOCK_ENTITY_SYNC = builder
                 .comment("Eliminate redundant per-tick sendBlockUpdated NBT packets and client chunk re-renders on Dark Ice, Destructible Fel Soil, and Puddle blocks / 消除暗冰、可毁邪土、刺激水洼与迷醉水洼每刻无意义触发的整块 NBT 同步包与客户端区块重建风暴")
                 .define("optimizeTemporaryBlockEntitySync", true);
+        TEMPORARY_BLOCK_TICK_INTERVAL = builder
+                .comment("Scheduled tick step interval for Dark Ice, Destructible Fel Soil, and Puddle blocks (total duration remains unchanged) / 暗冰、可毁邪土与药水水洼的倒计时合并调度步长（总持续时长保持不变）")
+                .defineInRange("temporaryBlockTickInterval", 5, 1, 20);
         OPTIMIZE_EQUIPMENT_INVENTORY_TICKS = builder
                 .comment("Optimize per-tick AABB entity scans on summoner staffs/hats and throttle redundant 10-30 tick effect packet spam on equipped armor & weapons / 优化召唤法杖与帽子在背包内每刻双端实体扫描，并节流盔甲武器每刻重复刷新短时药水导致的发包风暴")
                 .define("optimizeEquipmentInventoryTicks", true);
@@ -191,14 +219,26 @@ public final class OptimizerConfig {
      * 安全读取布尔配置，若配置尚未加载完成则回退到默认值，避免早期事件阶段抛出异常。
      */
     public static boolean isEnabled(ModConfigSpec.BooleanValue option) {
-        return SPEC.isLoaded() ? option.get() : option.getDefault();
+        try {
+            if (SPEC.isLoaded()) {
+                return option.get();
+            }
+        } catch (IllegalStateException ignored) {
+        }
+        return option.getDefault();
     }
 
     /**
      * 安全读取整数配置，若配置尚未加载完成则回退到默认值。
      */
     public static int getInt(ModConfigSpec.IntValue option) {
-        return SPEC.isLoaded() ? option.get() : option.getDefault();
+        try {
+            if (SPEC.isLoaded()) {
+                return option.get();
+            }
+        } catch (IllegalStateException ignored) {
+        }
+        return option.getDefault();
     }
 
     private OptimizerConfig() {

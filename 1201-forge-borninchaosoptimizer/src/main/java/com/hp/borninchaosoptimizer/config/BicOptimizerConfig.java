@@ -83,6 +83,10 @@ public final class BicOptimizerConfig {
         public final ForgeConfigSpec.BooleanValue fixEntityHurtOrder;
         public final ForgeConfigSpec.BooleanValue fixProjectilePickupDupe;
         public final ForgeConfigSpec.BooleanValue optimizeRangedAttackGoals;
+        public final ForgeConfigSpec.BooleanValue capMinionAndSwarmSpawning;
+        public final ForgeConfigSpec.IntValue maxNearbySummonedMinions;
+        public final ForgeConfigSpec.IntValue minionCapRadius;
+        public final ForgeConfigSpec.BooleanValue allowWildThornshellCrabDespawn;
 
         public final ForgeConfigSpec.BooleanValue fixPotionRefreshPrematureExpiry;
         public final ForgeConfigSpec.BooleanValue fixPrematureCureExpiry;
@@ -114,6 +118,7 @@ public final class BicOptimizerConfig {
         public final ForgeConfigSpec.IntValue temporaryBlockTickInterval;
         public final ForgeConfigSpec.BooleanValue optimizeStaticTrapBlockTicks;
         public final ForgeConfigSpec.BooleanValue fixDedicatedServerItemHoverCrash;
+        public final ForgeConfigSpec.BooleanValue cacheSoundsAndAnimations;
 
         private Common(ForgeConfigSpec.Builder builder) {
             builder.comment("通用修复与服务端性能优化设置 / General bug fixes and server performance optimizations")
@@ -170,6 +175,18 @@ public final class BicOptimizerConfig {
             this.optimizeRangedAttackGoals = builder
                     .comment("优化全部 13 个远程攻击内部类 RangedAttackGoal：增加目标判空防崩与动态寻路重算冷却，消除每 tick 重跑完整 A* 的开销")
                     .define("optimizeRangedAttackGoals", true);
+            this.capMinionAndSwarmSpawning = builder
+                    .comment("限制虫群宿主、母蜘蛛、唤骨者、灵魂向导、亡灵召唤等高频衍生召唤在局部区域内的同类实体数量上限，防止无限堆怪卡服")
+                    .define("capMinionAndSwarmSpawning", true);
+            this.maxNearbySummonedMinions = builder
+                    .comment("高频衍生召唤在检测半径内允许存在的同类实体最大数量上限（默认 24，不影响正常战斗）")
+                    .defineInRange("maxNearbySummonedMinions", 24, 4, 128);
+            this.minionCapRadius = builder
+                    .comment("高频衍生召唤同类实体密度统计半径（格）")
+                    .defineInRange("minionCapRadius", 24, 8, 64);
+            this.allowWildThornshellCrabDespawn = builder
+                    .comment("修复野生刺壳蟹自然刷新却永久不消失导致长期占满 CREATURE（10 只）动物上限的缺陷；被玩家喂食、繁殖、命名或拴绳的刺壳蟹仍永久保留")
+                    .define("allowWildThornshellCrabDespawn", true);
             builder.pop();
 
             builder.comment("药水效果与状态过程修复优化设置")
@@ -266,6 +283,9 @@ public final class BicOptimizerConfig {
             this.fixDedicatedServerItemHoverCrash = builder
                     .comment("修复 31 种物品在专用服务端被其他模组读取 appendHoverText 时加载客户端 Screen.hasShiftDown() 引发的崩溃风险")
                     .define("fixDedicatedServerItemHoverCrash", true);
+            this.cacheSoundsAndAnimations = builder
+                    .comment("缓存全部 98 种实体的音效注册表查询与 GeckoLib 预构建 RawAnimation 实例，消除每渲染帧与脚步声的重复对象分配 / Cache entity SoundEvent lookups and GeckoLib RawAnimation instances")
+                    .define("cacheSoundsAndAnimations", true);
             builder.pop();
         }
     }

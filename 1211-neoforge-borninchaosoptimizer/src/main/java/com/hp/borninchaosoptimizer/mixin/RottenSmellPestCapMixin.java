@@ -44,19 +44,22 @@ public abstract class RottenSmellPestCapMixin {
             return;
         }
         ci.cancel();
-        if (entity == null) {
+        if (entity == null || world.isClientSide() || !(world instanceof ServerLevel serverLevel)) {
             return;
         }
         boolean hasInsectProtection = entity instanceof LivingEntity living
                 && living.hasEffect(BornInChaosV1ModMobEffects.INSECT_PROTECTION);
-        if (!entity.isInWater() && !hasInsectProtection && world instanceof ServerLevel serverLevel) {
+        int particleInterval = Math.max(1, OptimizerConfig.getInt(OptimizerConfig.ROTTEN_SMELL_PARTICLE_INTERVAL));
+        if (!entity.isInWater()
+                && !hasInsectProtection
+                && ((entity.tickCount + entity.getId()) % particleInterval == 0)) {
             serverLevel.sendParticles(BornInChaosV1ModParticleTypes.FLI.get(), x, y + 1.0, z, 1, 0.3, 0.2, 0.3, 0.1);
         }
 
         double flyTimer = entity.getPersistentData().getDouble("fly");
-        flyTimer = (flyTimer == 0.0) ? 400.0 : (flyTimer - 1.0);
+        flyTimer = (flyTimer <= 0.0) ? 400.0 : (flyTimer - 1.0);
         entity.getPersistentData().putDouble("fly", flyTimer);
-        if (flyTimer != 0.0 || !(world instanceof ServerLevel serverLevel)) {
+        if (flyTimer != 0.0) {
             return;
         }
 

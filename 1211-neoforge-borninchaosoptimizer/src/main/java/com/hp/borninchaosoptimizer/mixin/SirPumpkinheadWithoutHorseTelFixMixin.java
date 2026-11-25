@@ -65,14 +65,16 @@ public abstract class SirPumpkinheadWithoutHorseTelFixMixin {
             if (!world.isClientSide()) {
                 Batch5ProcedureHelper.playSoundBothSides(world, x, y, z, "entity.glow_squid.squirt", 1.0f, 1.0f);
             }
+            double baseX = net.minecraft.util.Mth.floor(x) + 0.5;
+            double baseZ = net.minecraft.util.Mth.floor(z) + 0.5;
             double[][] candidates = {
-                    {x + 8.0, y + 1.0, z + 0.5},
-                    {x - 8.0, y + 1.0, z + 0.5},
-                    {x + 0.5, y + 1.0, z + 8.0},
-                    {x + 0.5, y + 1.0, z - 8.0}
+                    {baseX + 8.0, y + 1.0, baseZ},
+                    {baseX - 8.0, y + 1.0, baseZ},
+                    {baseX, y + 1.0, baseZ + 8.0},
+                    {baseX, y + 1.0, baseZ - 8.0}
             };
             for (double[] candidate : candidates) {
-                if (Batch5ProcedureHelper.isSafeTeleportSpot(world, candidate[0], candidate[1], candidate[2], true)) {
+                if (Batch5ProcedureHelper.isSafeEntityTeleportSpot(world, entity, candidate[0], candidate[1], candidate[2], true)) {
                     Batch5ProcedureHelper.teleportEntityAndSyncPlayer(entity, candidate[0], candidate[1], candidate[2]);
                     break;
                 }

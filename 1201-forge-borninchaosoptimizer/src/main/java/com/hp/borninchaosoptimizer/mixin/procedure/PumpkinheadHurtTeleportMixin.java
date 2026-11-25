@@ -46,25 +46,28 @@ public abstract class PumpkinheadHurtTeleportMixin {
         BlockPos originPos = BlockPos.containing(x, y, z);
         BossTeleportHelper.playSound(serverLevel, originPos, BIC_OPT$SQUIRT_SOUND, SoundSource.NEUTRAL, 1.0f, 1.0f);
 
-        boolean safePosX = !serverLevel.getBlockState(BlockPos.containing(x + 8.0, y + 1.0, z + 0.5)).canOcclude();
-        boolean safeNegX = !serverLevel.getBlockState(BlockPos.containing(x - 8.0, y + 1.0, z + 0.5)).canOcclude();
-        boolean safePosZ = !serverLevel.getBlockState(BlockPos.containing(x + 0.5, y + 1.0, z + 8.0)).canOcclude();
-        boolean safeNegZ = !serverLevel.getBlockState(BlockPos.containing(x + 0.5, y + 1.0, z - 8.0)).canOcclude();
+        double cx = net.minecraft.util.Mth.floor(x) + 0.5;
+        double cz = net.minecraft.util.Mth.floor(z) + 0.5;
+        double ty = y + 1.0;
+        boolean safePosX = BossTeleportHelper.isSafeEntityTeleportSpot(serverLevel, entity, cx + 8.0, ty, cz, false);
+        boolean safeNegX = BossTeleportHelper.isSafeEntityTeleportSpot(serverLevel, entity, cx - 8.0, ty, cz, false);
+        boolean safePosZ = BossTeleportHelper.isSafeEntityTeleportSpot(serverLevel, entity, cx, ty, cz + 8.0, false);
+        boolean safeNegZ = BossTeleportHelper.isSafeEntityTeleportSpot(serverLevel, entity, cx, ty, cz - 8.0, false);
 
         if (Math.random() < 0.3 && safePosX) {
-            BossTeleportHelper.teleportEntity(entity, x + 8.0, y + 1.0, z + 0.5);
+            BossTeleportHelper.teleportEntity(entity, cx + 8.0, ty, cz);
         } else if (Math.random() < 0.3 && safeNegX) {
-            BossTeleportHelper.teleportEntity(entity, x - 8.0, y + 1.0, z + 0.5);
+            BossTeleportHelper.teleportEntity(entity, cx - 8.0, ty, cz);
         } else if (Math.random() < 0.3 && safePosZ) {
-            BossTeleportHelper.teleportEntity(entity, x + 0.5, y + 1.0, z + 8.0);
+            BossTeleportHelper.teleportEntity(entity, cx, ty, cz + 8.0);
         } else if (safeNegZ) {
-            BossTeleportHelper.teleportEntity(entity, x + 0.5, y + 1.0, z - 8.0);
+            BossTeleportHelper.teleportEntity(entity, cx, ty, cz - 8.0);
         } else if (safePosX) {
-            BossTeleportHelper.teleportEntity(entity, x + 8.0, y + 1.0, z + 0.5);
+            BossTeleportHelper.teleportEntity(entity, cx + 8.0, ty, cz);
         } else if (safeNegX) {
-            BossTeleportHelper.teleportEntity(entity, x - 8.0, y + 1.0, z + 0.5);
+            BossTeleportHelper.teleportEntity(entity, cx - 8.0, ty, cz);
         } else if (safePosZ) {
-            BossTeleportHelper.teleportEntity(entity, x + 0.5, y + 1.0, z + 8.0);
+            BossTeleportHelper.teleportEntity(entity, cx, ty, cz + 8.0);
         }
 
         serverLevel.sendParticles(BornInChaosV1ModParticleTypes.SOUL_FIRE.get(), x, y, z, 9, 1.0, 1.0, 1.0, 1.0);

@@ -39,6 +39,7 @@ neoForge {
         client {
             client()
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            systemProperty 'selfmcp.window', 'hidden'
         }
 
         server {
@@ -85,6 +86,7 @@ tasks.withType(ProcessResources).configureEach {
             neo_version: project.neo_version,
             neo_version_range: project.neo_version_range,
             loader_version_range: project.loader_version_range,
+            born_in_chaos_version_range: project.born_in_chaos_version_range,
             mod_id: project.mod_id,
             mod_name: project.mod_name,
             mod_license: project.mod_license,

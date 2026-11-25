@@ -73,14 +73,17 @@ public abstract class SirPumpkinheadUnmountedHurtMixin {
             serverLevel.sendParticles(ParticleTypes.POOF, x, y, z, 6, 0.3, 0.3, 0.3, 0.1);
             BossTeleportHelper.playSound(serverLevel, originPos, BIC_OPT$SQUIRT_SOUND, SoundSource.NEUTRAL, 1.0f, 1.0f);
 
-            if (BossTeleportHelper.isSafeSirUnmountedSpace(serverLevel, x + 8.0, y, z + 0.5)) {
-                BossTeleportHelper.teleportEntity(entity, x + 8.0, y + 1.0, z + 0.5);
-            } else if (BossTeleportHelper.isSafeSirUnmountedSpace(serverLevel, x - 8.0, y, z + 0.5)) {
-                BossTeleportHelper.teleportEntity(entity, x - 8.0, y + 1.0, z + 0.5);
-            } else if (BossTeleportHelper.isSafeSirUnmountedSpace(serverLevel, x + 0.5, y, z + 8.0)) {
-                BossTeleportHelper.teleportEntity(entity, x + 0.5, y + 1.0, z + 8.0);
-            } else if (BossTeleportHelper.isSafeSirUnmountedSpace(serverLevel, x + 0.5, y, z - 8.0)) {
-                BossTeleportHelper.teleportEntity(entity, x + 0.5, y + 1.0, z - 8.0);
+            double cx = net.minecraft.util.Mth.floor(x) + 0.5;
+            double cz = net.minecraft.util.Mth.floor(z) + 0.5;
+            double ty = y + 1.0;
+            if (BossTeleportHelper.isSafeEntityTeleportSpot(serverLevel, entity, cx + 8.0, ty, cz, true)) {
+                BossTeleportHelper.teleportEntity(entity, cx + 8.0, ty, cz);
+            } else if (BossTeleportHelper.isSafeEntityTeleportSpot(serverLevel, entity, cx - 8.0, ty, cz, true)) {
+                BossTeleportHelper.teleportEntity(entity, cx - 8.0, ty, cz);
+            } else if (BossTeleportHelper.isSafeEntityTeleportSpot(serverLevel, entity, cx, ty, cz + 8.0, true)) {
+                BossTeleportHelper.teleportEntity(entity, cx, ty, cz + 8.0);
+            } else if (BossTeleportHelper.isSafeEntityTeleportSpot(serverLevel, entity, cx, ty, cz - 8.0, true)) {
+                BossTeleportHelper.teleportEntity(entity, cx, ty, cz - 8.0);
             }
 
             serverLevel.sendParticles(ParticleTypes.POOF, x, y, z, 9, 1.0, 1.0, 1.0, 1.0);

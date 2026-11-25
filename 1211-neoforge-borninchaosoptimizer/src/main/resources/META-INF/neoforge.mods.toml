@@ -30,6 +30,6 @@ side="BOTH"
 [[dependencies.${mod_id}]]
 modId="born_in_chaos_v1"
 type="required"
-versionRange="[0.0.1,)"
+versionRange="${born_in_chaos_version_range}"
 ordering="AFTER"
 side="BOTH"

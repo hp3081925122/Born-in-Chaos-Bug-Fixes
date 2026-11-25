@@ -90,6 +90,8 @@ public abstract class ThornshellCrabInteractProcedureMixin {
             }
         }
         crab.getPersistentData().putBoolean(BIC_KEY_EAT, true);
+        crab.getPersistentData().putBoolean("bic_player_interacted", true);
+        crab.setPersistenceRequired();
         mainHand.shrink(1);
         if (sourceentity instanceof Player player) {
             player.getCooldowns().addCooldown(BornInChaosV1ModItems.ROTTEN_FISH.get(), 15);

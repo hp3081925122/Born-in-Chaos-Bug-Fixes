@@ -70,6 +70,8 @@ public abstract class ThornshellCrabWriteScoreMixin {
             }
         }
         crab.getPersistentData().putBoolean("bic_eat", true);
+        crab.getPersistentData().putBoolean("bic_player_interacted", true);
+        crab.setPersistenceRequired();
         feeder.swing(InteractionHand.MAIN_HAND, true);
         if (!(feeder instanceof Player player && player.getAbilities().instabuild) && !world.isClientSide()) {
             mainHand.shrink(1);

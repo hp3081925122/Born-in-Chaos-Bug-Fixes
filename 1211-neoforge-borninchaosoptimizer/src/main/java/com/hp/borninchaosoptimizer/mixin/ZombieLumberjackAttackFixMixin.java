@@ -49,6 +49,7 @@ public abstract class ZombieLumberjackAttackFixMixin {
             if (target instanceof Player player) {
                 player.getCooldowns().addCooldown(shieldItem, 100);
             }
+            target.stopUsingItem();
             if (world instanceof Level level) {
                 if (!level.isClientSide()) {
                     level.playSound(null, BlockPos.containing(x, y, z), SoundEvents.ZOMBIE_BREAK_WOODEN_DOOR, SoundSource.NEUTRAL, 0.6f, 1.0f);

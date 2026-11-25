@@ -30,15 +30,17 @@ public abstract class PumpkinheadTelFixMixin {
         if (!world.isClientSide()) {
             Batch5ProcedureHelper.playSoundBothSides(world, x, y, z, "entity.glow_squid.squirt", 1.0f, 1.0f);
         }
+        double baseX = net.minecraft.util.Mth.floor(x) + 0.5;
+        double baseZ = net.minecraft.util.Mth.floor(z) + 0.5;
         double[][] candidates = {
-                {x + 8.0, y + 1.0, z + 0.5},
-                {x - 8.0, y + 1.0, z + 0.5},
-                {x + 0.5, y + 1.0, z + 8.0},
-                {x + 0.5, y + 1.0, z - 8.0}
+                {baseX + 8.0, y + 1.0, baseZ},
+                {baseX - 8.0, y + 1.0, baseZ},
+                {baseX, y + 1.0, baseZ + 8.0},
+                {baseX, y + 1.0, baseZ - 8.0}
         };
         boolean teleported = false;
         for (int i = 0; i < 3; i++) {
-            if (Math.random() < 0.3 && Batch5ProcedureHelper.isSafeTeleportSpot(world, candidates[i][0], candidates[i][1], candidates[i][2], false)) {
+            if (Math.random() < 0.3 && Batch5ProcedureHelper.isSafeEntityTeleportSpot(world, entity, candidates[i][0], candidates[i][1], candidates[i][2], false)) {
                 Batch5ProcedureHelper.teleportEntityAndSyncPlayer(entity, candidates[i][0], candidates[i][1], candidates[i][2]);
                 teleported = true;
                 break;
@@ -46,7 +48,7 @@ public abstract class PumpkinheadTelFixMixin {
         }
         if (!teleported) {
             for (int i = 3; i >= 0; i--) {
-                if (Batch5ProcedureHelper.isSafeTeleportSpot(world, candidates[i][0], candidates[i][1], candidates[i][2], false)) {
+                if (Batch5ProcedureHelper.isSafeEntityTeleportSpot(world, entity, candidates[i][0], candidates[i][1], candidates[i][2], false)) {
                     Batch5ProcedureHelper.teleportEntityAndSyncPlayer(entity, candidates[i][0], candidates[i][1], candidates[i][2]);
                     break;
                 }

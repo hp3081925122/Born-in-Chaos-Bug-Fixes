@@ -15,8 +15,11 @@ import net.mcreator.borninchaosv.entity.StaffofBlindnessProjectileEntity;
 import net.mcreator.borninchaosv.entity.StaffofMagicArrows2ProjectileEntity;
 import net.mcreator.borninchaosv.entity.StaffofMagicArrowsProjectileEntity;
 import net.mcreator.borninchaosv.entity.StimulatingBombprojectileEntity;
+import javax.annotation.Nullable;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -68,5 +71,21 @@ public abstract class ProjectilePickupDupeFixMixin extends AbstractArrow {
         if (OptimizerConfig.isEnabled(OptimizerConfig.FIX_PROJECTILE_PICKUP_DUPE)) {
             this.pickup = AbstractArrow.Pickup.DISALLOWED;
         }
+    }
+
+    @Override
+    public void setOwner(@Nullable Entity owner) {
+        super.setOwner(owner);
+        if (OptimizerConfig.isEnabled(OptimizerConfig.FIX_PROJECTILE_PICKUP_DUPE)) {
+            this.pickup = AbstractArrow.Pickup.DISALLOWED;
+        }
+    }
+
+    @Override
+    protected boolean tryPickup(Player player) {
+        if (OptimizerConfig.isEnabled(OptimizerConfig.FIX_PROJECTILE_PICKUP_DUPE)) {
+            return false;
+        }
+        return super.tryPickup(player);
     }
 }
