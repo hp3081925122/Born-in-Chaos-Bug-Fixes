@@ -49,7 +49,12 @@ public abstract class GluttonFishTickProcedureMixin {
             if (living.hasEffect(fishBreath)) {
                 living.removeEffect(fishBreath);
             }
-            living.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 40, 0, false, false));
+            MobEffectInstance grace = living.getEffect(MobEffects.DOLPHINS_GRACE);
+            if (!BicOptimizerConfig.getBoolean(BicOptimizerConfig.COMMON.optimizeSubEffectRefreshes)
+                    || grace == null
+                    || grace.getDuration() <= 10) {
+                living.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 40, 0, false, false));
+            }
             if (living.hasEffect(BornInChaosV1ModMobEffects.STUN.get()) && world instanceof ServerLevel serverLevel) {
                 serverLevel.sendParticles(BornInChaosV1ModParticleTypes.STUNSTARS.get(), x, y, z, 2, 1.3, 1.3, 1.3, 0.1);
             }

@@ -63,6 +63,7 @@ public final class BicClientRenderManager {
         TRANSLUCENT_TYPE_CACHE.clear();
         EYES_TYPE_CACHE.clear();
         GLOW_PLAN_CACHE.clear();
+        CachedPhantomBombGlowLayer.markReloaded();
     }
 
     public static RenderType getCachedEyesRenderType(ResourceLocation glowTexture) {

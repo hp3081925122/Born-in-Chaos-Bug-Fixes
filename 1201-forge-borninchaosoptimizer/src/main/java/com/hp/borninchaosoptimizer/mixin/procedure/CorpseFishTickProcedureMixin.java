@@ -39,7 +39,12 @@ public abstract class CorpseFishTickProcedureMixin {
             if (living.hasEffect(fishBreath)) {
                 living.removeEffect(fishBreath);
             }
-            living.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 40, 0, false, false));
+            MobEffectInstance grace = living.getEffect(MobEffects.DOLPHINS_GRACE);
+            if (!BicOptimizerConfig.getBoolean(BicOptimizerConfig.COMMON.optimizeSubEffectRefreshes)
+                    || grace == null
+                    || grace.getDuration() <= 10) {
+                living.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 40, 0, false, false));
+            }
         }
 
         MobEffectInstance breathInst = living.getEffect(fishBreath);
