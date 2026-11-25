@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -17,6 +18,7 @@ import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -44,7 +46,10 @@ public abstract class BlackArgilliteStartBreakProcedureMixin {
             return;
         }
         ItemStack mainHand = living.getMainHandItem();
-        if (!(mainHand.getItem() instanceof PickaxeItem) || living.hasEffect(MobEffects.DIG_SLOWDOWN)) {
+        boolean isPickaxe = mainHand.getItem() instanceof PickaxeItem
+                || (BicOptimizerConfig.getBoolean(BicOptimizerConfig.COMMON.fixHardcodedToolChecks)
+                        && (mainHand.is(ItemTags.PICKAXES) || mainHand.canPerformAction(ToolActions.PICKAXE_DIG)));
+        if (!isPickaxe || living.hasEffect(MobEffects.DIG_SLOWDOWN)) {
             return;
         }
         if (world.isClientSide()) {

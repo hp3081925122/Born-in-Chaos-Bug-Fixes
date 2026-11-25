@@ -37,6 +37,7 @@ public final class OptimizerConfig {
     public static final ModConfigSpec.IntValue MAX_NEARBY_SUMMONED_MINIONS;
     public static final ModConfigSpec.IntValue MINION_CAP_RADIUS;
     public static final ModConfigSpec.BooleanValue ALLOW_WILD_THORNSHELL_CRAB_DESPAWN;
+    public static final ModConfigSpec.BooleanValue FIX_SPAWN_CONDITIONS;
 
     // 药水效果与状态循环
     public static final ModConfigSpec.BooleanValue REPLACE_LOST_ITEMS_COMMAND_WITH_API;
@@ -61,6 +62,7 @@ public final class OptimizerConfig {
     public static final ModConfigSpec.BooleanValue FIX_PROJECTILE_PICKUP_DUPE;
     public static final ModConfigSpec.BooleanValue OPTIMIZE_STATIC_TRAP_BLOCK_TICKS;
     public static final ModConfigSpec.BooleanValue FIX_CLIENT_SIDE_GHOST_MUTATIONS;
+    public static final ModConfigSpec.BooleanValue FIX_HARDCODED_TOOL_CHECKS;
 
     static {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
@@ -147,6 +149,9 @@ public final class OptimizerConfig {
         ALLOW_WILD_THORNSHELL_CRAB_DESPAWN = builder
                 .comment("Allow wild naturally spawned Thornshell Crabs to despawn when far away so they do not permanently clog the 10-slot CREATURE cap; fed, bred, named, or leashed crabs remain persistent / 修复野生刺壳蟹自然刷新却永久不消失导致长期占满 CREATURE（10 只）动物上限的缺陷；被玩家喂食、繁殖、命名或拴绳的刺壳蟹仍永久保留")
                 .define("allowWildThornshellCrabDespawn", true);
+        FIX_SPAWN_CONDITIONS = builder
+                .comment("Block Corpse Fish and Glutton Fish from spawning in Peaceful difficulty and restore Thornshell Crab's biome & gamerule spawn predicate lost in 1.21.1 / 修复腐尸鱼与暴食鱼在和平难度下反复刷出并瞬消的空转，并恢复 1.21.1 遗失的刺壳蟹河岸群系与游戏规则刷新条件")
+                .define("fixSpawnConditions", true);
         builder.pop();
 
         builder.comment("Mob Effects Optimizations / 药水效果优化与缺陷修复").push("mob_effects");
@@ -210,6 +215,9 @@ public final class OptimizerConfig {
         FIX_CLIENT_SIDE_GHOST_MUTATIONS = builder
                 .comment("Prevent client-side ghost block placements (Dark Ice, Fel Soil, Puddles), client desynced teleports, and fix Stimulation Splash particle loop multiplication / 拦截实体与弹射物在客户端生成未同步的幽灵暗冰/邪土/水洼与本地瞬移拉扯，并修复刺激药水瓶空地无粒子、怪堆千粒掉帧缺陷")
                 .define("fixClientSideGhostMutations", true);
+        FIX_HARDCODED_TOOL_CHECKS = builder
+                .comment("Replace hardcoded AxeItem/PickaxeItem instanceof checks in shield breaking, scorched wood stripping, and black argillite mining with standard vanilla item tags and NeoForge ItemAbilities / 将破盾、焦木去皮与黑泥岩挖掘中的硬编码工具类检查替换为原版标准标签与 NeoForge ItemAbilities")
+                .define("fixHardcodedToolChecks", true);
         builder.pop();
 
         SPEC = builder.build();

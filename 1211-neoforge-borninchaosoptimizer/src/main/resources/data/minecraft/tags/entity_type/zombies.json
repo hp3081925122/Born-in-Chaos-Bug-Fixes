@@ -1,0 +1,16 @@
+{
+  "replace": false,
+  "values": [
+    "born_in_chaos_v1:barrel_zombie",
+    "born_in_chaos_v1:decaying_zombie",
+    "born_in_chaos_v1:decaying_zombie_not_despawn",
+    "born_in_chaos_v1:door_knight",
+    "born_in_chaos_v1:door_knight_not_despawn",
+    "born_in_chaos_v1:swarmer",
+    "born_in_chaos_v1:zombie_bruiser",
+    "born_in_chaos_v1:zombie_clown",
+    "born_in_chaos_v1:zombie_clown_not_despawn",
+    "born_in_chaos_v1:zombie_fisherman",
+    "born_in_chaos_v1:zombie_lumberjack"
+  ]
+}

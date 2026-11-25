@@ -44,8 +44,8 @@ public abstract class BlackArgilliteStartBreakCrashFixMixin {
         }
         ItemStack mainHand = player.getMainHandItem();
         boolean isPickaxe = mainHand.getItem() instanceof PickaxeItem
-                || mainHand.is(ItemTags.PICKAXES)
-                || mainHand.canPerformAction(ItemAbilities.PICKAXE_DIG);
+                || (OptimizerConfig.isEnabled(OptimizerConfig.FIX_HARDCODED_TOOL_CHECKS)
+                        && (mainHand.is(ItemTags.PICKAXES) || mainHand.canPerformAction(ItemAbilities.PICKAXE_DIG)));
         if (!isPickaxe) {
             return;
         }

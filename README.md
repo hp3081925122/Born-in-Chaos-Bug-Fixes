@@ -24,10 +24,13 @@
   - Fixed odd-tick `NullPointerException` crashes in custom mob ranged AI goals when a target is cleared.
   - Fixed `NullPointerException` crashes when advancements are removed or modified by modpack datapacks.
   - Fixed `Mother Spider` entity data synchronization class mismatch and null/missing-tag issues during player variable sync.
+  - Fixed thread-unsafe concurrent writes in `FMLCommonSetupEvent` (`ComposterBlock.COMPOSTABLES` on 1.20.1 and 42 `GameRules.register` calls on 1.21.1) by deferring registration via `enqueueWork`.
 - **Memory Leaks, World Save Bloat & Runaway Spawns / 内存泄漏、存档膨胀与堆怪漏洞**
   - Fixed the global delayed-task queue (`workQueue`) never removing `<= 0` tick tasks and carrying leftover tasks across world loads.
+  - Eliminated 76 redundant `.orElse(new PlayerVariables())` allocations on 1.20.1 (including per-frame Evilometer item-property rendering and inventory ticks).
   - Fixed Door Knight, Skeleton Thrasher, and Thornshell Crab permanently writing entity UUID entries into `scoreboard.dat` instead of entity NBT (legacy scoreboard entries are cleaned up automatically on server start).
   - Fixed wild naturally-spawned Thornshell Crabs permanently setting `persistenceRequired` and never despawning (clogging the vanilla `CREATURE` cap); fed, bred, named, or leashed crabs remain persistent.
+  - Fixed Corpse Fish and Glutton Fish bypassing Peaceful difficulty filtering (spawning and immediately despawning in a loop), and restored Thornshell Crab's river/shore/beach biome and gamerule spawn predicate missing on 1.21.1.
   - Added local density caps for runaway Corpse Fly / Maggot chain-breeding and high-frequency summoned minions (Swarmer, Mother Spider, Bonescaller, Supreme Bonescaller, Spirit Guide, Undead Summon, and zombie death maggots), fixed unsegmented ultra-long-range pathfinding server freezes, and fixed static traps infinitely rescheduling block ticks every tick.
 - **Boss & Mob Combat Bugs / Boss 与生物战斗缺陷**
   - Fixed Lord Pumpkinhead and Lord The Headless checking the victim's max health instead of their own max health for phase-2 attacks.
@@ -41,3 +44,7 @@
   - Fixed single-item consumables shrinking before cooldown registration (putting `Items.AIR` on cooldown for 0-cooldown spam), Fel Lamp wiping stacks larger than 1, Transmuting Elixir spawning duplicate converted mobs, and Creative/Spectator players losing consumables or item durability.
   - Fixed potion renewal or manual effect removal (Totem / commands) prematurely triggering expiry summon penalties.
   - Fixed Frostbitten Blade and Hound Trap destroying ground drops, XP orbs, and item frames, and fixed Intoxicating Bomb failing to spawn particles on empty ground or leaving client-side ghost puddles.
+- **Map Visibility, Modular Tool Compatibility & Standard Data Tags / 地图显示、工具兼容与标准数据包标签**
+  - Assigned matching vanilla `MapColor`s to all 109 Born in Chaos visible blocks missing `mapColor` (previously defaulting to `MapColor.NONE`), fixing invisible/see-through blocks on Xaero's World Map, Xaero's Minimap, and vanilla maps.
+  - Replaced hardcoded `instanceof AxeItem` / `PickaxeItem` checks in shield breaking, scorched log/plank stripping, and black argillite mining with standard vanilla item tags (`minecraft:axes`, `minecraft:pickaxes`) and Forge/NeoForge tool actions (`AXE_STRIP`, `PICKAXE_DIG`).
+  - Added incremental (`replace: false`) standard vanilla & `forge:*` / `c:*` block, item, and entity tags (including missing `mineable/pickaxe` and `mineable/axe` blocks, `logs_that_burn`, wooden building blocks, stained glass/panes, ores, ingots/nuggets, storage blocks, skeletons, zombies, impact projectiles, and bosses).

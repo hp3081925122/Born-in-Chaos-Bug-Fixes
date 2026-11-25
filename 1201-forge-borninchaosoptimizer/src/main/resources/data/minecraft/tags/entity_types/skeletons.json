@@ -1,0 +1,20 @@
+{
+  "replace": false,
+  "values": [
+    "born_in_chaos_v1:baby_skeleton",
+    "born_in_chaos_v1:baby_skeleton_minion",
+    "born_in_chaos_v1:bonescaller",
+    "born_in_chaos_v1:bonescaller_not_despawn",
+    "born_in_chaos_v1:controlled_baby_skeleton",
+    "born_in_chaos_v1:decrepit_skeleton",
+    "born_in_chaos_v1:siamese_skeletons",
+    "born_in_chaos_v1:siamese_skeletonsleft",
+    "born_in_chaos_v1:siamese_skeletonsright",
+    "born_in_chaos_v1:skeleton_demoman",
+    "born_in_chaos_v1:skeleton_thrasher",
+    "born_in_chaos_v1:skeleton_thrasher_not_despawn",
+    "born_in_chaos_v1:supreme_bonescaller",
+    "born_in_chaos_v1:supreme_bonescaller_not_despawn",
+    "born_in_chaos_v1:supreme_bonescaller_stage_2"
+  ]
+}

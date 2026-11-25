@@ -2,16 +2,22 @@ package com.hp.borninchaosoptimizer.mixin;
 
 import com.hp.borninchaosoptimizer.config.OptimizerConfig;
 import net.mcreator.borninchaosv.entity.ThornshellCrabEntity;
+import net.mcreator.borninchaosv.init.BornInChaosV1ModEntities;
+import net.mcreator.borninchaosv.procedures.ThornshellCrabpriProcedure;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
@@ -65,5 +71,24 @@ public abstract class ThornshellCrabDespawnMixin extends Animal {
             crab.getPersistentData().putBoolean(BIC_PLAYER_INTERACTED_KEY, true);
             crab.setPersistenceRequired();
         }
+    }
+
+    /**
+     * 修复 1.21.1 原模组迁移时丢失 ThornshellCrabpriProcedure 生成条件，导致刺壳蟹在任意草地群系泛滥且无视 THORNSHELL_CRAB_SPAWN 规则开关的问题。
+     */
+    @Inject(method = "init", at = @At("HEAD"), cancellable = true, remap = false)
+    private static void bic$restoreThornshellCrabSpawnPlacement(RegisterSpawnPlacementsEvent event, CallbackInfo ci) {
+        if (!OptimizerConfig.isEnabled(OptimizerConfig.FIX_SPAWN_CONDITIONS)) {
+            return;
+        }
+        ci.cancel();
+        event.register(
+                BornInChaosV1ModEntities.THORNSHELL_CRAB.get(),
+                SpawnPlacementTypes.ON_GROUND,
+                Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                (entityType, world, reason, pos, random) -> ThornshellCrabpriProcedure.execute(
+                        world, pos.getX(), pos.getY(), pos.getZ()),
+                RegisterSpawnPlacementsEvent.Operation.REPLACE
+        );
     }
 }

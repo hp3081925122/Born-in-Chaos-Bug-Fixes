@@ -1,0 +1,44 @@
+{
+  "files": [
+    {
+      "minecraft": "1.20.1",
+      "artifact": "e:\\模组\\发cf的模组\\AAA-优化模组\\生于混沌优化\\1201-forge-borninchaosoptimizer\\build\\libs\\borninchaosoptimizer-1.20.1-forge-1.1.0.jar",
+      "sha256": "76d3113f6cc461f7aeb2db459734efd9f8fdcd500ae4bbe7363953d8b5e4316a",
+      "metadata": {
+        "changelog": "## 1.1.0\n\n- Renamed display name to **Born in Chaos Bug Fixes** and updated the mod icon.\n- **Mob Spawning & Despawn Fixes**:\n  - Added configurable local density caps for high-frequency summoned minions and swarm spawns (Swarmer, Mother Spider, Bonescaller, Supreme Bonescaller, Spirit Guide, Undead Summon, and zombie death maggots).\n  - Fixed wild naturally-spawned Thornshell Crabs permanently setting `persistenceRequired` and clogging the vanilla `CREATURE` cap (fed, bred, named, or leashed crabs remain persistent).\n  - Fixed Corpse Fish and Glutton Fish bypassing Peaceful difficulty filtering and repeatedly spawning/despawning.\n- **Map Visibility, Tool Compatibility & Standard Data Tags**:\n  - Assigned matching vanilla `MapColor`s to all 109 Born in Chaos visible blocks missing `mapColor`, fixing invisible/see-through blocks on Xaero's World Map, Minimap, and vanilla maps.\n  - Replaced hardcoded `AxeItem` / `PickaxeItem` `instanceof` checks in shield breaking, scorched log/plank stripping, and black argillite mining with standard `minecraft:axes` / `minecraft:pickaxes` tags and Forge `ToolActions`.\n  - Added 54 incremental (`replace: false`) standard `minecraft:*` and `forge:*` block, item, and entity tags.\n- **Startup Thread Safety & Memory Allocation Fixes**:\n  - Deferred `BornInChaosV1ModCompostableItems` `FMLCommonSetupEvent` registration via `enqueueWork` to prevent concurrent startup crashes when writing `ComposterBlock.COMPOSTABLES` alongside other mods.\n  - Eliminated 76 redundant `.orElse(new PlayerVariables())` allocations across 14 procedures and player sync events (including per-frame Evilometer item-property rendering and inventory ticks).\n  - Aligned `queueServerWork` input guards (`null` and `<= 0` tick clamping) with the 1.21.1 branch.\n\n---\n\n## 1.1.0 更新说明\n\n- 模组显示名称更新为 **Born in Chaos Bug Fixes（生于混沌 Bug 修复）** 并更换新图标。\n- **生物刷新与刷怪上限修复**：\n  - 为高频衍生召唤物与虫群（虫群宿主、母蜘蛛、唤骨者、至高唤骨者、灵魂向导、亡灵召唤及僵尸死亡腐蛆）增加可配置的局部同类密度上限，防止无限堆怪卡服。\n  - 修复野生自然刷新的刺壳蟹永久开启持久化永不消失、长期占满原版 `CREATURE` 动物上限的缺陷（喂食、繁殖、命名或拴绳的刺壳蟹仍永久保留）。\n  - 修复腐尸鱼与暴食鱼作为水生分类敌对怪绕过和平模式过滤、反复刷出并立刻清除的空转缺陷。\n- **地图显示、模块化工具兼容与标准数据包标签**：\n  - 在方块构造期为 109 个缺失 `mapColor` 的生于混沌可见方块补齐材质对应的原版地图色，修复 Xaero 大小地图与原版地图看不见或穿透显示的问题。\n  - 将持斧破盾、焦木去皮/雕削与黑泥岩起挖中的硬编码 `AxeItem` / `PickaxeItem` 判断替换为标准 `minecraft:axes` / `minecraft:pickaxes` 标签与 Forge `ToolActions`（并修复焦木去皮创造模式扣耐久与客户端幽灵改块）。\n  - 增量补齐 54 组标准 `minecraft:*` 与 `forge:*` 方块、物品与实体数据包标签（含遗漏的 `mineable/pickaxe`、`mineable/axe`、`logs_that_burn`、木质构件、染色玻璃、矿石、锭/粒、存储块、骷髅、投射物与首领等，全部 `replace: false`）。\n- **开服线程安全与内存分配修复**：\n  - 修复 `BornInChaosV1ModCompostableItems` 在并发 `FMLCommonSetupEvent` 中直接写入非线程安全 `ComposterBlock.COMPOSTABLES` 导致与其他模组同装时开服随机崩溃的问题。\n  - 消除 14 个过程与玩家同步事件中共 76 处 `.orElse(new PlayerVariables())` 无效短命对象分配（含邪恶仪每帧图标渲染与背包每刻检测）。\n  - 补齐 `queueServerWork` 入口防空与 `<= 0` 刻钳制，与 1.21.1 分支保持一致。",
+        "changelogType": "markdown",
+        "displayName": "1.20.1-Forge-Born in Chaos Bug Fixes-1.1.0",
+        "gameVersions": [9990, 7498, 8326, 9638, 9639],
+        "releaseType": "release",
+        "relations": {
+          "projects": [
+            {
+              "slug": "born-in-chaos",
+              "type": "requiredDependency"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "minecraft": "1.21.1",
+      "artifact": "e:\\模组\\发cf的模组\\AAA-优化模组\\生于混沌优化\\1211-neoforge-borninchaosoptimizer\\build\\libs\\borninchaosoptimizer-1.21.1-neoforge-1.1.0.jar",
+      "sha256": "bdb6e803320ed9ff1c50ef3256dd639ca8088b07b3f7ba682610c595bcd607f9",
+      "metadata": {
+        "changelog": "## 1.1.0\n\n- Renamed display name to **Born in Chaos Bug Fixes** and updated the mod icon.\n- **Mob Spawning & Despawn Fixes**:\n  - Added configurable local density caps for high-frequency summoned minions and swarm spawns (Swarmer, Mother Spider, Bonescaller, Supreme Bonescaller, Spirit Guide, Undead Summon, and zombie death maggots).\n  - Fixed wild naturally-spawned Thornshell Crabs permanently setting `persistenceRequired` and clogging the vanilla `CREATURE` cap (fed, bred, named, or leashed crabs remain persistent).\n  - Restored Thornshell Crab's river/shore/beach biome and `thornshellCrabSpawn` gamerule spawn predicate lost in 1.21.1 (previously spawning across all grassy biomes and ignoring the gamerule).\n  - Fixed Corpse Fish and Glutton Fish bypassing Peaceful difficulty filtering and repeatedly spawning/despawning.\n- **Map Visibility, Tool Compatibility & Standard Data Tags**:\n  - Assigned matching vanilla `MapColor`s to all 109 Born in Chaos visible blocks missing `mapColor`, fixing invisible/see-through blocks on Xaero's World Map, Minimap, and vanilla maps.\n  - Replaced hardcoded `AxeItem` / `PickaxeItem` `instanceof` checks in shield breaking, scorched log/plank stripping, and black argillite mining with standard `minecraft:axes` / `minecraft:pickaxes` tags and NeoForge `ItemAbilities`.\n  - Added 56 incremental (`replace: false`) standard `minecraft:*` and `c:*` block, item, and entity tags (including `zombies`, `skeletons`, `can_breathe_under_water`, `impact_projectiles`, and `c:bosses`).\n- **Startup Thread Safety Fix**:\n  - Deferred `BornInChaosV1ModGameRules.registerGameRules` (42 `GameRules.register` calls) in `FMLCommonSetupEvent` via `enqueueWork` to prevent concurrent writes to the non-thread-safe `GameRules` `TreeMap` during startup.\n\n---\n\n## 1.1.0 更新说明\n\n- 模组显示名称更新为 **Born in Chaos Bug Fixes（生于混沌 Bug 修复）** 并更换新图标。\n- **生物刷新与刷怪上限修复**：\n  - 为高频衍生召唤物与虫群（虫群宿主、母蜘蛛、唤骨者、至高唤骨者、灵魂向导、亡灵召唤及僵尸死亡腐蛆）增加可配置的局部同类密度上限，防止无限堆怪卡服。\n  - 修复野生自然刷新的刺壳蟹永久开启持久化永不消失、长期占满原版 `CREATURE` 动物上限的缺陷（喂食、繁殖、命名或拴绳的刺壳蟹仍永久保留）。\n  - 修复 1.21.1 原模组迁移丢失刺壳蟹河岸/红树林/石岸/沙滩群系与 `thornshellCrabSpawn` 游戏规则刷新条件、导致其在任意草地泛滥且无视规则开关的缺陷。\n  - 修复腐尸鱼与暴食鱼作为水生分类敌对怪绕过和平模式过滤、反复刷出并立刻清除的空转缺陷。\n- **地图显示、模块化工具兼容与标准数据包标签**：\n  - 在方块构造期为 109 个缺失 `mapColor` 的生于混沌可见方块补齐材质对应的原版地图色，修复 Xaero 大小地图与原版地图看不见或穿透显示的问题。\n  - 将持斧破盾、焦木去皮/雕削与黑泥岩起挖中的硬编码 `AxeItem` / `PickaxeItem` 判断替换为标准 `minecraft:axes` / `minecraft:pickaxes` 标签与 NeoForge `ItemAbilities`（并修复焦木去皮创造模式扣耐久与客户端幽灵改块）。\n  - 增量补齐 56 组标准 `minecraft:*` 与 `c:*` 方块、物品与实体数据包标签（含遗漏的 `mineable/pickaxe`、`mineable/axe`、`logs_that_burn`、木质构件、去皮原木、染色玻璃、矿石、锭/粒、存储块、骷髅、僵尸、水下呼吸、投射物与 `c:bosses` 等，全部 `replace: false`）。\n- **开服线程安全修复**：\n  - 修复 1.21.1 `BornInChaosV1ModGameRules` 在并发 `FMLCommonSetupEvent` 中连续 42 次裸调 `GameRules.register()` 写入非线程安全 `TreeMap` 的开服竞态隐患，改为通过 `enqueueWork` 串行注册。",
+        "changelogType": "markdown",
+        "displayName": "1.21.1-NeoForge-Born in Chaos Bug Fixes-1.1.0",
+        "gameVersions": [11779, 10150, 11135, 9638, 9639],
+        "releaseType": "release",
+        "relations": {
+          "projects": [
+            {
+              "slug": "born-in-chaos",
+              "type": "requiredDependency"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

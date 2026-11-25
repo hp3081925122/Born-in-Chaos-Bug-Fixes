@@ -5,6 +5,7 @@ import com.hp.borninchaosoptimizer.config.BicOptimizerConfig;
 import com.hp.borninchaosoptimizer.util.WorkQueueHolder;
 import net.mcreator.borninchaosv.BornInChaosV1Mod;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.fml.util.thread.SidedThreadGroups;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -34,6 +35,21 @@ public abstract class BornInChaosV1ModMixin {
     @Inject(method = "<init>", at = @At("TAIL"))
     private void bic$bindWorkQueue(CallbackInfo ci) {
         WorkQueueHolder.bind(workQueue);
+    }
+
+    @Inject(method = "queueServerWork", at = @At("HEAD"), cancellable = true)
+    private static void bic$guardQueueServerWork(int tick, Runnable action, CallbackInfo ci) {
+        if (!BicOptimizerConfig.getBoolean(BicOptimizerConfig.COMMON.enableGlobalFixes)
+                || !BicOptimizerConfig.getBoolean(BicOptimizerConfig.COMMON.optimizeWorkQueue)) {
+            return;
+        }
+        ci.cancel();
+        if (action == null) {
+            return;
+        }
+        if (Thread.currentThread().getThreadGroup() == SidedThreadGroups.SERVER) {
+            workQueue.add(new AbstractMap.SimpleEntry<>(action, Math.max(1, tick)));
+        }
     }
 
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)

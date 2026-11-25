@@ -87,6 +87,8 @@ public final class BicOptimizerConfig {
         public final ForgeConfigSpec.IntValue maxNearbySummonedMinions;
         public final ForgeConfigSpec.IntValue minionCapRadius;
         public final ForgeConfigSpec.BooleanValue allowWildThornshellCrabDespawn;
+        public final ForgeConfigSpec.BooleanValue fixSpawnConditions;
+        public final ForgeConfigSpec.BooleanValue fixHardcodedToolChecks;
 
         public final ForgeConfigSpec.BooleanValue fixPotionRefreshPrematureExpiry;
         public final ForgeConfigSpec.BooleanValue fixPrematureCureExpiry;
@@ -187,6 +189,12 @@ public final class BicOptimizerConfig {
             this.allowWildThornshellCrabDespawn = builder
                     .comment("修复野生刺壳蟹自然刷新却永久不消失导致长期占满 CREATURE（10 只）动物上限的缺陷；被玩家喂食、繁殖、命名或拴绳的刺壳蟹仍永久保留")
                     .define("allowWildThornshellCrabDespawn", true);
+            this.fixSpawnConditions = builder
+                    .comment("修复腐尸鱼/暴食鱼在和平模式下绕过敌对怪拦截反复刷出销毁等自定义刷怪条件缺陷")
+                    .define("fixSpawnConditions", true);
+            this.fixHardcodedToolChecks = builder
+                    .comment("将焦木去皮、焦木板雕削、持斧破盾与黑泥岩起挖中的硬编码 AxeItem/PickaxeItem 改为原版标准工具标签与 ToolActions 判定")
+                    .define("fixHardcodedToolChecks", true);
             builder.pop();
 
             builder.comment("药水效果与状态过程修复优化设置")
