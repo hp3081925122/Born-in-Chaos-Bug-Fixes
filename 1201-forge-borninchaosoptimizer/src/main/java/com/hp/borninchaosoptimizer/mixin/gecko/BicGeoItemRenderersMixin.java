@@ -25,6 +25,7 @@ public abstract class BicGeoItemRenderersMixin {
     @Redirect(
             method = "getRenderType*",
             remap = false,
+            require = 0,
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/client/renderer/RenderType;entityTranslucent(Lnet/minecraft/resources/ResourceLocation;)Lnet/minecraft/client/renderer/RenderType;",

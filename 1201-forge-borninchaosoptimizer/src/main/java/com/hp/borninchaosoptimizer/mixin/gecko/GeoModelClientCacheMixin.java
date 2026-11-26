@@ -87,6 +87,7 @@ public abstract class GeoModelClientCacheMixin<T extends GeoAnimatable> {
 
     @Redirect(
             method = "getAnimation",
+            require = 0,
             at = @At(
                     value = "INVOKE",
                     target = "Lsoftware/bernie/geckolib/model/GeoModel;getAnimationResource(Lsoftware/bernie/geckolib/core/animatable/GeoAnimatable;)Lnet/minecraft/resources/ResourceLocation;"

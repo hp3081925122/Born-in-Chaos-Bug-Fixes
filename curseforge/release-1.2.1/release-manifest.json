@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "minecraft": "1.20.1",
+      "artifact": "E:\\模组\\发cf的模组\\AAA-MCR bug 修复\\生于混沌bug修复\\1201-forge-borninchaosoptimizer\\build\\libs\\borninchaosoptimizer-1.20.1-forge-1.2.1.jar",
+      "sha256": "edb0ef373ab9790c61cd29a996e92f177cf4c765df9c9e74166715064f71eafc",
+      "metadata": {
+        "changelog": "## 1.2.1 (1.20.1 Hotfix)\n\n- **Compatibility Fix (`MCreatorMemFix` & other MCreator memory/config mods)**:\n  - Changed `PlayerVariablesAllocOptimizeMixin` (`@Redirect` on `NEW BornInChaosV1ModVariables$PlayerVariables`) from `require = 1` to `require = 0`.\n  - Fixes the 1.20.1 startup crash (`Critical injection failure ... failed injection check, (0/1) succeeded. Scanned 2 target(s)`) when running alongside **MCreatorMemFix** (which removes `NEW/DUP/INVOKESPECIAL` and rewrites `.orElse(new PlayerVariables())` to `.orElseGet(...)` in ModLauncher `Phase.BEFORE` after its first-launch restart) or other mods modifying the same procedures.\n  - When `MCreatorMemFix` is not installed (or before its config takes effect), this optimization continues to eliminate all 70 redundant `PlayerVariables` allocations across 14 procedures normally.\n- **Additional Optional Optimization Hardening**:\n  - Explicitly marked 3 optional performance `@Redirect` injectors (`GeoModelClientCacheMixin`, `BicGeoItemRenderersMixin`, `CustomRangedGoalsMixin`) as `require = 0` so they degrade gracefully when other optimization/rendering/AI mods modify the same call sites, while keeping all core bug-fix injectors strict.\n\n---\n\n## 1.2.1 热修复更新说明（仅 1.20.1 Forge）\n\n- **修复与 `MCreatorMemFix` 等同类模组的启动崩溃冲突**：\n  - 将 `PlayerVariablesAllocOptimizeMixin` 中针对 `NEW BornInChaosV1ModVariables$PlayerVariables` 的 `@Redirect` 要求由 `require = 1` 调整为 `require = 0`。\n  - 彻底修复与 **MCreatorMemFix** 同装并重启生效后，因对方在 ModLauncher `Phase.BEFORE` 阶段已提前移除 `NEW/DUP/INVOKESPECIAL` 并将 `.orElse(new PlayerVariables())` 改写为 `.orElseGet(...)`，导致本模组启动抛出 `Critical injection failure: (0/1) succeeded. Scanned 2 target(s)` 崩溃的问题。\n  - 未安装 `MCreatorMemFix`（或对方首次启动尚未生成配置文件）时，本优化仍正常接管全部 14 个过程共 70 处冗余分配。\n- **同类可选性能优化注入点兼容加固**：\n  - 为 `GeoModelClientCacheMixin`、`BicGeoItemRenderersMixin`、`CustomRangedGoalsMixin` 三处纯性能优化 `@Redirect` 显式补充 `require = 0`，避免与其他优化/渲染/AI 模组竞争同一调用点时引发启动崩溃，同时保持全部核心修崩与防刷物品注入点的严格校验。",
+        "changelogType": "markdown",
+        "displayName": "1.20.1-Forge-Born in Chaos Bug Fixes-1.2.1",
+        "gameVersions": [
+          9990,
+          7498,
+          8326,
+          9638,
+          9639
+        ],
+        "releaseType": "release",
+        "relations": {
+          "projects": [
+            {
+              "slug": "born-in-chaos",
+              "type": "requiredDependency"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

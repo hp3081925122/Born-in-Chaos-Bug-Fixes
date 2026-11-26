@@ -77,6 +77,7 @@ public abstract class CustomRangedGoalsMixin {
 
     @Redirect(
             method = "tick",
+            require = 0,
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/world/entity/ai/navigation/PathNavigation;moveTo(Lnet/minecraft/world/entity/Entity;D)Z"

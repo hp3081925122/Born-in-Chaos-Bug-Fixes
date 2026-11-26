@@ -24,6 +24,9 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 /**
  * 消除 1.20.1 Forge MCreator 模板在全部 14 个过程中共 70 处 .orElse(new PlayerVariables()) 只读回退产生的无效对象分配，
  * 尤其是邪恶仪（Evilometer）客户端每帧渲染谓词与背包每刻检测带来的短命 GC 抖动。
+ * 使用 require = 0 以兼容 MCreatorMemFix 等在 ModLauncher Phase.BEFORE 阶段已提前将 .orElse(new PlayerVariables())
+ * 改写为 .orElseGet(...) 的优化模组，或覆盖同类淘气值过程的配置模组：对方接管时自动静默跳过而不崩溃，
+ * 未安装此类模组（或其首次启动尚未生成配置）时仍全量接管生效。
  */
 @Mixin(value = {
         BirchBranchesPriUdariePoSushchnostiInstrumientomProcedure.class,
@@ -48,7 +51,7 @@ public abstract class PlayerVariablesAllocOptimizeMixin {
                     value = "NEW",
                     target = "()Lnet/mcreator/borninchaosv/network/BornInChaosV1ModVariables$PlayerVariables;"
             ),
-            require = 1
+            require = 0
     )
     private static BornInChaosV1ModVariables.PlayerVariables bic$reuseEmptyPlayerVariables() {
         if (!BicOptimizerConfig.getBoolean(BicOptimizerConfig.COMMON.enableGlobalFixes)) {
