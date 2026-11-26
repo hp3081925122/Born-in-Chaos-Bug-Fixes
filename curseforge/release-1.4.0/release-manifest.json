@@ -1,0 +1,56 @@
+{
+  "files": [
+    {
+      "minecraft": "1.20.1",
+      "artifact": "E:\\模组\\发cf的模组\\AAA-MCR bug 修复\\生于混沌bug修复\\1201-forge-borninchaosoptimizer\\build\\libs\\borninchaosoptimizer-1.20.1-forge-1.4.0.jar",
+      "sha256": "8bdfd9afc00ada174aac653be82bddd0be37bbb88dff50513df567f012aff0d7",
+      "metadata": {
+        "changelog": "## 1.4.0\n\n- **Entity Tracking Range Convergence (All 98 Entities)**:\n  - Fixed all **98 Born in Chaos entities** registering with misconfigured chunk tracking ranges (`40–170` chunks / up to `2,720` blocks, likely entered as block distances instead of chunks).\n  - Clamped tracking ranges at registration time to standard vanilla-aligned chunk ranges (**6 chunks** for projectiles, **8 chunks** for regular mobs, and **10 chunks** for Bosses and long-range elites), eliminating unnecessary cross-chunk entity tracking and sync traffic on servers and clients.\n- **Metadata Hygiene**:\n  - Updated the NeoForge 1.21.1 `minecraft_version_range` metadata to `[1.21.1,)` without an artificial upper cap.\n\n---\n\n## 1.4.0 更新说明\n\n- **全部 98 种实体追踪半径收敛（消除跨数十区块无效同步）**：\n  - 修复原模组全部 **98 种实体** 注册时误将方块距离直接填入区块追踪半径（高达 `40~170` 区块，即最远 `2720` 格持续同步）的缺陷。\n  - 在实体注册阶段按原版标准统一收敛为：**弹射物 6 区块（96 格）**、**常规生物 8 区块（128 格）**、**Boss 及超远索敌精英 10 区块（160 格）**，大幅降低服务端实体追踪与网络同步开销。\n- **元数据规范化**：\n  - 将 1.21.1 NeoForge 版本的 `minecraft_version_range` 调整为 `[1.21.1,)`，移除冗余版本上限限制。",
+        "changelogType": "markdown",
+        "displayName": "1.20.1-Forge-Born in Chaos Bug Fixes-1.4.0",
+        "gameVersions": [
+          9990,
+          7498,
+          8326,
+          9638,
+          9639
+        ],
+        "releaseType": "release",
+        "relations": {
+          "projects": [
+            {
+              "slug": "born-in-chaos",
+              "type": "requiredDependency"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "minecraft": "1.21.1",
+      "artifact": "E:\\模组\\发cf的模组\\AAA-MCR bug 修复\\生于混沌bug修复\\1211-neoforge-borninchaosoptimizer\\build\\libs\\borninchaosoptimizer-1.21.1-neoforge-1.4.0.jar",
+      "sha256": "7aadb343df07a10590e6864dbc1f849d9c3dd06baa0a1e5b4fe19c6eee07bfd5",
+      "metadata": {
+        "changelog": "## 1.4.0\n\n- **Entity Tracking Range Convergence (All 98 Entities)**:\n  - Fixed all **98 Born in Chaos entities** registering with misconfigured chunk tracking ranges (`40–170` chunks / up to `2,720` blocks, likely entered as block distances instead of chunks).\n  - Clamped tracking ranges at registration time to standard vanilla-aligned chunk ranges (**6 chunks** for projectiles, **8 chunks** for regular mobs, and **10 chunks** for Bosses and long-range elites), eliminating unnecessary cross-chunk entity tracking and sync traffic on servers and clients.\n- **Metadata Hygiene**:\n  - Updated the NeoForge 1.21.1 `minecraft_version_range` metadata to `[1.21.1,)` without an artificial upper cap.\n\n---\n\n## 1.4.0 更新说明\n\n- **全部 98 种实体追踪半径收敛（消除跨数十区块无效同步）**：\n  - 修复原模组全部 **98 种实体** 注册时误将方块距离直接填入区块追踪半径（高达 `40~170` 区块，即最远 `2720` 格持续同步）的缺陷。\n  - 在实体注册阶段按原版标准统一收敛为：**弹射物 6 区块（96 格）**、**常规生物 8 区块（128 格）**、**Boss 及超远索敌精英 10 区块（160 格）**，大幅降低服务端实体追踪与网络同步开销。\n- **元数据规范化**：\n  - 将 1.21.1 NeoForge 版本的 `minecraft_version_range` 调整为 `[1.21.1,)`，移除冗余版本上限限制。",
+        "changelogType": "markdown",
+        "displayName": "1.21.1-NeoForge-Born in Chaos Bug Fixes-1.4.0",
+        "gameVersions": [
+          11779,
+          10150,
+          11135,
+          9638,
+          9639
+        ],
+        "releaseType": "release",
+        "relations": {
+          "projects": [
+            {
+              "slug": "born-in-chaos",
+              "type": "requiredDependency"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

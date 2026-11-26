@@ -38,6 +38,7 @@
     "core.PlayerVariablesEventsMixin",
     "core.PlayerVariablesMixin",
     "entity.BicEntityBaseTickFlagMixin",
+    "entity.BornInChaosEntitiesTrackingMixin",
     "entity.EntityLootDataDrivenMixin",
     "entity.BicProjectilesMixin",
     "entity.BossAndCreeperHurtOrderMixin",

@@ -212,7 +212,20 @@ public final class OptimizerServerGameTests {
                         && "block.born_in_chaos_v1.dark_ice".equals(tc.getKey()),
                 "DarkIceBlockEntity displayName must use block translation key");
 
-        Borninchaosoptimizer.LOGGER.info("[BornInChaosOptimizer] All core optimizations and Batch 1-6 bug fixes verified in live ServerLevel!");
+        // 9. 验证全部 98 种实体追踪半径已收敛（弹射物 6、常规生物 8、Boss/精英 10，不得出现 > 10 区块）
+        int checkedEntities = 0;
+        for (var holder : BornInChaosV1ModEntities.REGISTRY.getEntries()) {
+            net.minecraft.world.entity.EntityType<?> type = holder.get();
+            int range = type.clientTrackingRange();
+            helper.assertTrue(range >= 4 && range <= 10, "Tracking range must be clamped to 4..10 chunks, got " + range + " for " + holder.getId());
+            checkedEntities++;
+        }
+        helper.assertTrue(checkedEntities == 98, "Expected 98 Born in Chaos entity types, got " + checkedEntities);
+        helper.assertTrue(BornInChaosV1ModEntities.NIGHTMARE_STALKER.get().clientTrackingRange() == 10, "Nightmare Stalker tracking range must be 10 chunks");
+        helper.assertTrue(BornInChaosV1ModEntities.DECAYING_ZOMBIE.get().clientTrackingRange() == 8, "Decaying Zombie tracking range must be 8 chunks");
+        helper.assertTrue(BornInChaosV1ModEntities.PUMPKIN_PISTOL_PROJECTILE.get().clientTrackingRange() == 6, "Pumpkin Pistol Projectile tracking range must be 6 chunks");
+
+        Borninchaosoptimizer.LOGGER.info("[BornInChaosOptimizer] All core optimizations and Batch 1-6 + MCR-14 bug fixes verified in live ServerLevel!");
         helper.succeed();
     }
 }

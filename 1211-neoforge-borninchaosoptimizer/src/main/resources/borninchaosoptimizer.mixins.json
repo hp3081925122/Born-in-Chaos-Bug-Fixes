@@ -15,6 +15,7 @@
     "BlockMapColorFixMixin",
     "BlockEntityDefaultNameMixin",
     "EntityLootDataDrivenMixin",
+    "BornInChaosEntitiesTrackingMixin",
     "BornInChaosV1ModMixin",
     "BossPhaseDuplicateSpawnFixMixin",
     "ChaoticSpringSpawnMixin",
