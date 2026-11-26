@@ -13,6 +13,8 @@
     "BlackArgilliteStartBreakCrashFixMixin",
     "BlockBreakShieldSupportMixin",
     "BlockMapColorFixMixin",
+    "BlockEntityDefaultNameMixin",
+    "EntityLootDataDrivenMixin",
     "BornInChaosV1ModMixin",
     "BossPhaseDuplicateSpawnFixMixin",
     "ChaoticSpringSpawnMixin",

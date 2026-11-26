@@ -7,6 +7,7 @@
   "refmap": "borninchaosoptimizer.refmap.json",
   "mixins": [
     "block.BlockMapColorFixMixin",
+    "block.BlockEntityDefaultNameMixin",
     "block.DarkIcePlaceProcedureMixin",
     "block.DarkIceStepProcedureMixin",
     "block.DarkIceTickProcedureMixin",
@@ -37,6 +38,7 @@
     "core.PlayerVariablesEventsMixin",
     "core.PlayerVariablesMixin",
     "entity.BicEntityBaseTickFlagMixin",
+    "entity.EntityLootDataDrivenMixin",
     "entity.BicProjectilesMixin",
     "entity.BossAndCreeperHurtOrderMixin",
     "entity.CustomRangedGoalsMixin",

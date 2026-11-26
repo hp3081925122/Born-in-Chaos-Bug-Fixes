@@ -184,6 +184,34 @@ public final class OptimizerServerGameTests {
         ((IBicSyncedAnimatable) stalker).bic$handleAnimationSyncTick(false);
         helper.assertTrue("undefined".equals(stalker.getSyncedAnimation()), "Server animation must reset to undefined on the following tick");
 
+        // 8. 验证 10 个生物数据驱动战利品表与 4 个方块实体本地化名称
+        String[] migratedLootIds = {
+                "entities/baby_skeleton",
+                "entities/firelight_not_despawn",
+                "entities/scarlet_persecutor",
+                "entities/siamese_skeletonsleft",
+                "entities/siamese_skeletonsright",
+                "entities/barrel_zombie",
+                "entities/door_knight",
+                "entities/door_knight_not_despawn",
+                "entities/fallen_chaos_knight",
+                "entities/zombie_clown_not_despawn"
+        };
+        for (String lootPath : migratedLootIds) {
+            net.minecraft.resources.ResourceKey<net.minecraft.world.level.storage.loot.LootTable> lootKey =
+                    net.minecraft.resources.ResourceKey.create(
+                            Registries.LOOT_TABLE,
+                            net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("born_in_chaos_v1", lootPath)
+                    );
+            net.minecraft.world.level.storage.loot.LootTable table = level.getServer().reloadableRegistries().getLootTable(lootKey);
+            helper.assertTrue(table != net.minecraft.world.level.storage.loot.LootTable.EMPTY, "Entity loot table must load cleanly: " + lootPath);
+        }
+        net.minecraft.world.level.block.entity.BlockEntity darkIceBe = level.getBlockEntity(absPos);
+        helper.assertTrue(darkIceBe instanceof net.minecraft.world.Nameable nameable
+                        && nameable.getDisplayName().getContents() instanceof net.minecraft.network.chat.contents.TranslatableContents tc
+                        && "block.born_in_chaos_v1.dark_ice".equals(tc.getKey()),
+                "DarkIceBlockEntity displayName must use block translation key");
+
         Borninchaosoptimizer.LOGGER.info("[BornInChaosOptimizer] All core optimizations and Batch 1-6 bug fixes verified in live ServerLevel!");
         helper.succeed();
     }

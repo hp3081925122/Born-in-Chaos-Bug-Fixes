@@ -1,0 +1,56 @@
+{
+  "files": [
+    {
+      "minecraft": "1.20.1",
+      "artifact": "E:\\模组\\发cf的模组\\AAA-MCR bug 修复\\生于混沌bug修复\\1201-forge-borninchaosoptimizer\\build\\libs\\borninchaosoptimizer-1.20.1-forge-1.3.0.jar",
+      "sha256": "f5d4018fb514642aac56530c0270591281dc7047961cd4bde78402a13f83da5f",
+      "metadata": {
+        "changelog": "## 1.3.0\n\n- **Data-Driven Entity Loot Tables (JEI / JER / EMI Loot & Datapack Support)**:\n  - Migrated all **10 mobs** with hardcoded Java `dropCustomDeathLoot` drops into standard JSON entity loot tables (`data/born_in_chaos_v1/loot_tables/entities/*.json` on 1.20.1 Forge / `loot_table/entities/*.json` on 1.21.1 NeoForge) and removed the redundant Java `spawnAtLocation(...)` calls:\n    - Added missing JSON loot tables for **5 mobs that previously had no JSON loot table at all**: `baby_skeleton` (Bone), `firelight_not_despawn` (Fire Dust), `scarlet_persecutor` (Ethereal Spirit), `siamese_skeletonsleft` (Fused Bone), and `siamese_skeletonsright` (Fused Bone), with Looting enchantment scaling.\n    - Merged the hardcoded guaranteed Rotten Flesh drop into the existing JSON loot tables for `barrel_zombie`, `door_knight`, `door_knight_not_despawn`, `fallen_chaos_knight`, and `zombie_clown_not_despawn` so JEI/JER shows complete drops and datapacks/LootJS can override them cleanly without hidden drops.\n- **Block Entity Display Name Localization**:\n  - Replaced hardcoded English `Component.literal(...)` default/display names on `DarkIceBlockEntity`, `FelSoilDestructibleBlockEntity`, `PuddleofintoxicationBlockEntity`, and `PuddleofStimulationBlockEntity` with native block translation keys (`block.born_in_chaos_v1.*`).\n\n---\n\n## 1.3.0 更新说明\n\n- **10 种生物硬编码战利品全面迁入标准 JSON 战利品表（修复 JEI / JER 显示不全）**：\n  - 取消 10 种生物 `dropCustomDeathLoot` 中的 Java 硬编码掉落，全部迁移/合并至标准实体 JSON 战利品表（1.20.1 Forge 为 `loot_tables/entities/*.json`，1.21.1 NeoForge 为 `loot_table/entities/*.json`）：\n    - 为原本**完全没有 JSON 战利品表**的 5 种生物补齐带抢夺加成的实体战利品表：`baby_skeleton`（骨头）、`firelight_not_despawn`（火焰粉）、`scarlet_persecutor`（以太之灵）、`siamese_skeletonsleft` / `siamese_skeletonsright`（融合骨）。\n    - 将 `barrel_zombie`、`door_knight`、`door_knight_not_despawn`、`fallen_chaos_knight`、`zombie_clown_not_despawn` 原本硬编码保底多掉的腐肉合并进各自实体 JSON 战利品表，使 JEI/JER 显示完整掉落且完全支持数据包与 LootJS 魔改。\n- **方块实体默认名称本地化**：\n  - 将 `DarkIceBlockEntity`、`FelSoilDestructibleBlockEntity`、`PuddleofintoxicationBlockEntity` 与 `PuddleofStimulationBlockEntity` 中硬编码的英文 `Component.literal(...)` 名称改为复用对应方块的原生翻译键。",
+        "changelogType": "markdown",
+        "displayName": "1.20.1-Forge-Born in Chaos Bug Fixes-1.3.0",
+        "gameVersions": [
+          9990,
+          7498,
+          8326,
+          9638,
+          9639
+        ],
+        "releaseType": "release",
+        "relations": {
+          "projects": [
+            {
+              "slug": "born-in-chaos",
+              "type": "requiredDependency"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "minecraft": "1.21.1",
+      "artifact": "E:\\模组\\发cf的模组\\AAA-MCR bug 修复\\生于混沌bug修复\\1211-neoforge-borninchaosoptimizer\\build\\libs\\borninchaosoptimizer-1.21.1-neoforge-1.3.0.jar",
+      "sha256": "dde26918230db7c658cc236e36c1dad6de90dc503fc4bf0c9e5fd31102b84d8e",
+      "metadata": {
+        "changelog": "## 1.3.0\n\n- **Data-Driven Entity Loot Tables (JEI / JER / EMI Loot & Datapack Support)**:\n  - Migrated all **10 mobs** with hardcoded Java `dropCustomDeathLoot` drops into standard JSON entity loot tables (`data/born_in_chaos_v1/loot_tables/entities/*.json` on 1.20.1 Forge / `loot_table/entities/*.json` on 1.21.1 NeoForge) and removed the redundant Java `spawnAtLocation(...)` calls:\n    - Added missing JSON loot tables for **5 mobs that previously had no JSON loot table at all**: `baby_skeleton` (Bone), `firelight_not_despawn` (Fire Dust), `scarlet_persecutor` (Ethereal Spirit), `siamese_skeletonsleft` (Fused Bone), and `siamese_skeletonsright` (Fused Bone), with Looting enchantment scaling.\n    - Merged the hardcoded guaranteed Rotten Flesh drop into the existing JSON loot tables for `barrel_zombie`, `door_knight`, `door_knight_not_despawn`, `fallen_chaos_knight`, and `zombie_clown_not_despawn` so JEI/JER shows complete drops and datapacks/LootJS can override them cleanly without hidden drops.\n- **Block Entity Display Name Localization**:\n  - Replaced hardcoded English `Component.literal(...)` default/display names on `DarkIceBlockEntity`, `FelSoilDestructibleBlockEntity`, `PuddleofintoxicationBlockEntity`, and `PuddleofStimulationBlockEntity` with native block translation keys (`block.born_in_chaos_v1.*`).\n\n---\n\n## 1.3.0 更新说明\n\n- **10 种生物硬编码战利品全面迁入标准 JSON 战利品表（修复 JEI / JER 显示不全）**：\n  - 取消 10 种生物 `dropCustomDeathLoot` 中的 Java 硬编码掉落，全部迁移/合并至标准实体 JSON 战利品表（1.20.1 Forge 为 `loot_tables/entities/*.json`，1.21.1 NeoForge 为 `loot_table/entities/*.json`）：\n    - 为原本**完全没有 JSON 战利品表**的 5 种生物补齐带抢夺加成的实体战利品表：`baby_skeleton`（骨头）、`firelight_not_despawn`（火焰粉）、`scarlet_persecutor`（以太之灵）、`siamese_skeletonsleft` / `siamese_skeletonsright`（融合骨）。\n    - 将 `barrel_zombie`、`door_knight`、`door_knight_not_despawn`、`fallen_chaos_knight`、`zombie_clown_not_despawn` 原本硬编码保底多掉的腐肉合并进各自实体 JSON 战利品表，使 JEI/JER 显示完整掉落且完全支持数据包与 LootJS 魔改。\n- **方块实体默认名称本地化**：\n  - 将 `DarkIceBlockEntity`、`FelSoilDestructibleBlockEntity`、`PuddleofintoxicationBlockEntity` 与 `PuddleofStimulationBlockEntity` 中硬编码的英文 `Component.literal(...)` 名称改为复用对应方块的原生翻译键。",
+        "changelogType": "markdown",
+        "displayName": "1.21.1-NeoForge-Born in Chaos Bug Fixes-1.3.0",
+        "gameVersions": [
+          11779,
+          10150,
+          11135,
+          9638,
+          9639
+        ],
+        "releaseType": "release",
+        "relations": {
+          "projects": [
+            {
+              "slug": "born-in-chaos",
+              "type": "requiredDependency"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
