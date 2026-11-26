@@ -43,7 +43,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 }, remap = false)
 public abstract class PlayerVariablesAllocOptimizeMixin {
     @Redirect(
-            method = "execute",
+            method = "execute*",
             at = @At(
                     value = "NEW",
                     target = "()Lnet/mcreator/borninchaosv/network/BornInChaosV1ModVariables$PlayerVariables;"

@@ -24,7 +24,12 @@
   - Fixed odd-tick `NullPointerException` crashes in custom mob ranged AI goals when a target is cleared.
   - Fixed `NullPointerException` crashes when advancements are removed or modified by modpack datapacks.
   - Fixed `Mother Spider` entity data synchronization class mismatch and null/missing-tag issues during player variable sync.
-  - Fixed thread-unsafe concurrent writes in `FMLCommonSetupEvent` (`ComposterBlock.COMPOSTABLES` on 1.20.1 and 42 `GameRules.register` calls on 1.21.1) by deferring registration via `enqueueWork`.
+  - Fixed thread-unsafe concurrent writes in `FMLCommonSetupEvent` (`ComposterBlock.COMPOSTABLES` on 1.20.1 and 42 `GameRules.register` calls on 1.21.1 with idempotency protection) by deferring registration via `enqueueWork`.
+- **Death Protection, Localization & Asset/Log Spam Fixes / 免死机制、本地化与资源/日志报错修复**
+  - Unified `Death Totem` and `Dark Ward` (`Dark Atrium`) under server-side `EventPriority.HIGH` so `NORMAL`-priority downed/revive mods cannot break death protection, excluded `BYPASSES_INVULNERABILITY` damage (void and `/kill`), prevented Creative-mode totem loss, and unified mainhand/offhand Strength II while keeping full Nightmare Armor hunger protection.
+  - Fixed `Bad Feeling` (Nightmare Stalker & Missionary) warning messages pre-translating via `Component.translatable(...).getString()` on the server, resolving raw translation keys on dedicated servers and host-language lock-in on multiplayer.
+  - Fixed GeckoLib invalid `"-"` keyframe expressions (`babyskeleton`, `babyskeletondeamon`, `boneimp` `idle`, `scarletpersecutor` `attack`), 55 broken bare self-parents in `models/custom/*.json`, and invalid frame indices `[0..6]` on the single-frame `16x16` `dimanim` particle sprite without copying any original assets.
+  - Filtered legacy removed `forge:step_height_addition` and `forge:entity_gravity` attribute IDs from 9 Born in Chaos structure NBTs on 1.21.1, eliminating `Ignoring unknown attribute` log spam during worldgen.
 - **Memory Leaks, World Save Bloat & Runaway Spawns / 内存泄漏、存档膨胀与堆怪漏洞**
   - Fixed the global delayed-task queue (`workQueue`) never removing `<= 0` tick tasks and carrying leftover tasks across world loads.
   - Eliminated 76 redundant `.orElse(new PlayerVariables())` allocations on 1.20.1 (including per-frame Evilometer item-property rendering and inventory ticks).

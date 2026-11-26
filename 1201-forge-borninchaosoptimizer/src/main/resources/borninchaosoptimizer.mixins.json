@@ -73,6 +73,7 @@
     "procedure.AdvancementNullGuardMixin",
     "procedure.AoeLivingTargetFilterMixin",
     "procedure.BabySpiderControlledTickMixin",
+    "procedure.BadFeelingLocalizationFixMixin",
     "procedure.BlackArgilliteBreakProcedureMixin",
     "procedure.BlackArgilliteStartBreakProcedureMixin",
     "procedure.BonescallerStaffTickMixin",
@@ -85,6 +86,7 @@
     "procedure.DarkMetalArmorTickMixin",
     "procedure.DarkMetalDepositBreakProcedureMixin",
     "procedure.DarkVortexSunTickMixin",
+    "procedure.DeathProtectionOverrideMixin",
     "procedure.DecayingZombieTickProcedureMixin",
     "procedure.FelLampStackPreserveMixin",
     "procedure.FelMountStackPreserveMixin",
@@ -149,6 +151,9 @@
     "seasonal.SeasonalSpawnProceduresMixin"
   ],
   "client": [
+    "client.BicCustomModelParentFixMixin",
+    "client.BicSpriteFrameFixMixin",
+    "client.GeoAnimDashFixMixin",
     "client.LevelRendererGlowBatchMixin",
     "client.PhantomBombRendererClientMixin",
     "core.PlayerVariablesSyncMessageMixin",

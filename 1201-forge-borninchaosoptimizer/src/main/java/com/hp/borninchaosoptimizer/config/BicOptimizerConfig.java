@@ -89,6 +89,8 @@ public final class BicOptimizerConfig {
         public final ForgeConfigSpec.BooleanValue allowWildThornshellCrabDespawn;
         public final ForgeConfigSpec.BooleanValue fixSpawnConditions;
         public final ForgeConfigSpec.BooleanValue fixHardcodedToolChecks;
+        public final ForgeConfigSpec.BooleanValue fixDeathProtectionEvents;
+        public final ForgeConfigSpec.BooleanValue fixWarningMessageLocalization;
 
         public final ForgeConfigSpec.BooleanValue fixPotionRefreshPrematureExpiry;
         public final ForgeConfigSpec.BooleanValue fixPrematureCureExpiry;
@@ -195,6 +197,12 @@ public final class BicOptimizerConfig {
             this.fixHardcodedToolChecks = builder
                     .comment("将焦木去皮、焦木板雕削、持斧破盾与黑泥岩起挖中的硬编码 AxeItem/PickaxeItem 改为原版标准工具标签与 ToolActions 判定")
                     .define("fixHardcodedToolChecks", true);
+            this.fixDeathProtectionEvents = builder
+                    .comment("以 HIGH 事件优先级处理暗影守护与死亡图腾免死逻辑以兼容倒地复活模组，并修复掉虚空与 /kill 误消耗图腾、创造模式误耗及主副手力量等级不一致缺陷")
+                    .define("fixDeathProtectionEvents", true);
+            this.fixWarningMessageLocalization = builder
+                    .comment("修复梦魇潜行者与传教士入侵警告在服务端提前硬转字符串导致专用服务端输出原始翻译键及无法按客户端语言显示的问题")
+                    .define("fixWarningMessageLocalization", true);
             builder.pop();
 
             builder.comment("药水效果与状态过程修复优化设置")

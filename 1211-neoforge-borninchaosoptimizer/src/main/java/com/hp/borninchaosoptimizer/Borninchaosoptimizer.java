@@ -1,6 +1,7 @@
 package com.hp.borninchaosoptimizer;
 
 import com.hp.borninchaosoptimizer.config.OptimizerConfig;
+import com.hp.borninchaosoptimizer.event.BicDeathProtectionHandler;
 import com.hp.borninchaosoptimizer.util.WorkQueueBridge;
 import com.mojang.logging.LogUtils;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public final class Borninchaosoptimizer {
         modContainer.registerConfig(ModConfig.Type.COMMON, OptimizerConfig.SPEC);
         NeoForge.EVENT_BUS.addListener(this::onServerStarted);
         NeoForge.EVENT_BUS.addListener(this::onServerStopping);
+        NeoForge.EVENT_BUS.register(new BicDeathProtectionHandler());
     }
 
     private void onServerStarted(ServerStartedEvent event) {

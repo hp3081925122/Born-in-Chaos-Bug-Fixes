@@ -1,6 +1,7 @@
 package com.hp.borninchaosoptimizer;
 
 import com.hp.borninchaosoptimizer.config.BicOptimizerConfig;
+import com.hp.borninchaosoptimizer.event.BicDeathProtectionHandler;
 import com.hp.borninchaosoptimizer.event.BicServerLifecycleHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -30,6 +31,7 @@ public final class Borninchaosoptimizer {
                 "borninchaosoptimizer-client.toml"
         );
         MinecraftForge.EVENT_BUS.register(new BicServerLifecycleHandler());
+        MinecraftForge.EVENT_BUS.register(new BicDeathProtectionHandler());
         LOGGER.info("[BornInChaosOptimizer] Loaded bug fixes and performance optimizations for Born in Chaos.");
     }
 }

@@ -1,0 +1,44 @@
+{
+  "files": [
+    {
+      "minecraft": "1.20.1",
+      "artifact": "e:\\模组\\发cf的模组\\AAA-优化模组\\生于混沌优化\\1201-forge-borninchaosoptimizer\\build\\libs\\borninchaosoptimizer-1.20.1-forge-1.2.0.jar",
+      "sha256": "f39397472c7b23d2c6182c3a8a2068b9852e8b4b8c54f94abc7f27fd9b025669",
+      "metadata": {
+        "changelog": "## 1.2.0\n\n- **Death Totem & Dark Ward (Dark Atrium) Fixes** (`fixDeathProtectionEvents`, default `true`):\n  - Unified `Death Totem` and `Dark Ward` death-protection handling under `EventPriority.HIGH` (server-side only), preventing revive/downed mods listening at `NORMAL` priority from intercepting lethal damage first and breaking totem/ward activation.\n  - Excluded `BYPASSES_INVULNERABILITY` damage sources (void and `/kill`) so unpreventable deaths no longer waste a Death Totem.\n  - Fixed Creative-mode Death Totem consumption, client-side state desync, and inconsistent Strength amplifier between mainhand and offhand (unified to Strength II while preserving full Nightmare Armor hunger protection).\n- **Server-Side Warning Localization Fix** (`fixWarningMessageLocalization`, default `true`):\n  - Fixed Nightmare Stalker and Missionary (`Bad Feeling`) warning messages calling `Component.translatable(...).getString()` on the server before wrapping in `Component.literal(...)`, which sent raw translation keys on dedicated servers or forced the host's language in multiplayer.\n- **Client Asset & Animation Error Spam Fixes (Zero Copied Assets)**:\n  - Fixed GeckoLib Molang parser failing on invalid `\"-\"` keyframe expressions in `babyskeleton`, `babyskeletondeamon`, `boneimp` (`idle`), and `scarletpersecutor` (`attack`) animations, eliminating `Unable to parse animation` / `CompoundException` startup errors and restoring affected animations.\n  - Fixed 55 custom Born in Chaos block/item models (`models/custom/*.json`) declaring broken bare self-parents (e.g. `\"parent\": \"grudbone\"`, `\"Icysweetness\"`), eliminating `Unable to load model: 'minecraft:...'` resource reload log spam.\n  - Fixed single-frame `16x16` particle texture `born_in_chaos_v1:dimanim` referencing invalid animation frames `[0..6]` in its `.mcmeta`, eliminating `Invalid frame index` errors.\n\n---\n\n## 1.2.0 更新说明\n\n- **死亡图腾与暗影守护（暗黑心房）免死逻辑修复**（配置项 `fixDeathProtectionEvents`，默认开启）：\n  - 将 `Death Totem`（死亡图腾）与 `Dark Ward`（暗影守护）统一提升至 `EventPriority.HIGH` 且仅在服务端执行，修复与默认 `NORMAL` 优先级的倒地/复活类模组冲突导致图腾或暗影守护失效的问题。\n  - 排除 `BYPASSES_INVULNERABILITY` 伤害源（掉虚空与 `/kill` 指令），避免无法阻止的死亡白白消耗死亡图腾。\n  - 修复创造模式误消耗图腾、客户端越权改写状态以及主副手触发力量等级不一致的缺陷（统一为力量 II，并完整保留全套梦魇护甲的饱食度保护）。\n- **警告消息服务端本地化修复**（配置项 `fixWarningMessageLocalization`，默认开启）：\n  - 修复梦魇潜行者与传教士（`Bad Feeling`）警告在服务端提前调用 `Component.translatable(...).getString()` 再包 `Component.literal(...)` 发送消息的缺陷，彻底解决独立服务端显示原始翻译键以及联机强行显示房主语言的问题。\n- **客户端动画、自定义模型与粒子资源报错修复（零复制原模组资产）**：\n  - 修复 `babyskeleton`、`babyskeletondeamon`、`boneimp`（`idle`）与 `scarletpersecutor`（`attack`）动画 JSON 中非法 `\"-\"` 关键帧导致 GeckoLib 解析报 `Unable to parse animation` / `CompoundException` 并使对应动画失效的问题。\n  - 修复 55 个 `models/custom/*.json` 自定义模型含无命名空间裸自引用 `parent`（如 `\"grudbone\"`、`\"Icysweetness\"`）导致重载资源时大量刷屏 `Unable to load model: 'minecraft:...'` 的问题。\n  - 修复单帧 `16x16` 粒子贴图 `born_in_chaos_v1:dimanim` 因 `.mcmeta` 引用帧索引 `[0..6]` 导致启动刷屏 `Invalid frame index` 报错的问题。",
+        "changelogType": "markdown",
+        "displayName": "1.20.1-Forge-Born in Chaos Bug Fixes-1.2.0",
+        "gameVersions": [9990, 7498, 8326, 9638, 9639],
+        "releaseType": "release",
+        "relations": {
+          "projects": [
+            {
+              "slug": "born-in-chaos",
+              "type": "requiredDependency"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "minecraft": "1.21.1",
+      "artifact": "e:\\模组\\发cf的模组\\AAA-优化模组\\生于混沌优化\\1211-neoforge-borninchaosoptimizer\\build\\libs\\borninchaosoptimizer-1.21.1-neoforge-1.2.0.jar",
+      "sha256": "9d6a41c9d97f5beff39bc75a7a1f307275e8908ad798e4aa8f28cfae4a077852",
+      "metadata": {
+        "changelog": "## 1.2.0\n\n- **Death Totem & Dark Ward (Dark Atrium) Fixes** (`fixDeathProtectionEvents`, default `true`):\n  - Unified `Death Totem` and `Dark Ward` death-protection handling under `EventPriority.HIGH` (server-side only), preventing revive/downed mods listening at `NORMAL` priority from intercepting lethal damage first and breaking totem/ward activation.\n  - Excluded `BYPASSES_INVULNERABILITY` damage sources (void and `/kill`) so unpreventable deaths no longer waste a Death Totem.\n  - Fixed Creative-mode Death Totem consumption, client-side state desync, and inconsistent Strength amplifier between mainhand and offhand (unified to Strength II while preserving full Nightmare Armor hunger protection).\n- **Server-Side Warning Localization Fix** (`fixWarningMessageLocalization`, default `true`):\n  - Fixed Nightmare Stalker and Missionary (`Bad Feeling`) warning messages calling `Component.translatable(...).getString()` on the server before wrapping in `Component.literal(...)`, which sent raw translation keys on dedicated servers or forced the host's language in multiplayer.\n- **Legacy 1.20.1 Structure NBT Attribute Filter & GameRules Idempotency (1.21.1)**:\n  - Filtered legacy removed `forge:step_height_addition` and `forge:entity_gravity` attribute IDs stored in 9 Born in Chaos structure NBTs when loading entities, eliminating `Ignoring unknown attribute 'forge:...'` server log spam during worldgen.\n  - Hardened `GameRulesThreadSafeMixin` with an idempotency guard (`AtomicBoolean`) to prevent duplicate `GameRules.register` exceptions if setup fires redundantly.\n- **Client Asset & Animation Error Spam Fixes (Zero Copied Assets)**:\n  - Fixed GeckoLib `MathParser` failing on invalid `\"-\"` keyframe expressions in `babyskeleton`, `babyskeletondeamon`, `boneimp` (`idle`), and `scarletpersecutor` (`attack`) animations, eliminating `Unable to parse animation` startup errors and restoring affected animations.\n  - Fixed 55 custom Born in Chaos block/item models (`models/custom/*.json`) declaring broken bare self-parents (e.g. `\"parent\": \"grudbone\"`, `\"Icysweetness\"`), eliminating `Unable to load model: 'minecraft:...'` resource reload log spam.\n  - Fixed single-frame `16x16` particle texture `born_in_chaos_v1:dimanim` referencing invalid animation frames `[0..6]` in its `.mcmeta`, eliminating `Invalid frame index` errors.\n\n---\n\n## 1.2.0 更新说明\n\n- **死亡图腾与暗影守护（暗黑心房）免死逻辑修复**（配置项 `fixDeathProtectionEvents`，默认开启）：\n  - 将 `Death Totem`（死亡图腾）与 `Dark Ward`（暗影守护）统一提升至 `EventPriority.HIGH` 且仅在服务端执行，修复与默认 `NORMAL` 优先级的倒地/复活类模组冲突导致图腾或暗影守护失效的问题。\n  - 排除 `BYPASSES_INVULNERABILITY` 伤害源（掉虚空与 `/kill` 指令），避免无法阻止的死亡白白消耗死亡图腾。\n  - 修复创造模式误消耗图腾、客户端越权改写状态以及主副手触发力量等级不一致的缺陷（统一为力量 II，并完整保留全套梦魇护甲的饱食度保护）。\n- **警告消息服务端本地化修复**（配置项 `fixWarningMessageLocalization`，默认开启）：\n  - 修复梦魇潜行者与传教士（`Bad Feeling`）警告在服务端提前调用 `Component.translatable(...).getString()` 再包 `Component.literal(...)` 发送消息的缺陷，彻底解决独立服务端显示原始翻译键以及联机强行显示房主语言的问题。\n- **1.21.1 遗留结构 NBT 旧属性过滤与 GameRules 幂等加固**：\n  - 过滤 9 个生于混沌结构 NBT 预设实体中残留的 1.20.1 旧属性 ID（`forge:step_height_addition` 与 `forge:entity_gravity`），消除结构生成时的 `Ignoring unknown attribute 'forge:...'` 日志刷屏。\n  - 为 `GameRulesThreadSafeMixin` 增加幂等保护（`AtomicBoolean`），避免重复触发 `GameRules.register` 导致重复注册异常。\n- **客户端动画、自定义模型与粒子资源报错修复（零复制原模组资产）**：\n  - 修复 `babyskeleton`、`babyskeletondeamon`、`boneimp`（`idle`）与 `scarletpersecutor`（`attack`）动画 JSON 中非法 `\"-\"` 关键帧导致 GeckoLib `MathParser` 解析报 `Unable to parse animation` 并使对应动画失效的问题。\n  - 修复 55 个 `models/custom/*.json` 自定义模型含无命名空间裸自引用 `parent`（如 `\"grudbone\"`、`\"Icysweetness\"`）导致重载资源时大量刷屏 `Unable to load model: 'minecraft:...'` 的问题。\n  - 修复单帧 `16x16` 粒子贴图 `born_in_chaos_v1:dimanim` 因 `.mcmeta` 引用帧索引 `[0..6]` 导致启动刷屏 `Invalid frame index` 报错的问题。",
+        "changelogType": "markdown",
+        "displayName": "1.21.1-NeoForge-Born in Chaos Bug Fixes-1.2.0",
+        "gameVersions": [11779, 10150, 11135, 9638, 9639],
+        "releaseType": "release",
+        "relations": {
+          "projects": [
+            {
+              "slug": "born-in-chaos",
+              "type": "requiredDependency"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

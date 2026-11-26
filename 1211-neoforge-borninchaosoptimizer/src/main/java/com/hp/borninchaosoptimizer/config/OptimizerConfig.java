@@ -63,6 +63,8 @@ public final class OptimizerConfig {
     public static final ModConfigSpec.BooleanValue OPTIMIZE_STATIC_TRAP_BLOCK_TICKS;
     public static final ModConfigSpec.BooleanValue FIX_CLIENT_SIDE_GHOST_MUTATIONS;
     public static final ModConfigSpec.BooleanValue FIX_HARDCODED_TOOL_CHECKS;
+    public static final ModConfigSpec.BooleanValue FIX_DEATH_PROTECTION_EVENTS;
+    public static final ModConfigSpec.BooleanValue FIX_WARNING_MESSAGE_LOCALIZATION;
 
     static {
         ModConfigSpec.Builder builder = new ModConfigSpec.Builder();
@@ -218,6 +220,12 @@ public final class OptimizerConfig {
         FIX_HARDCODED_TOOL_CHECKS = builder
                 .comment("Replace hardcoded AxeItem/PickaxeItem instanceof checks in shield breaking, scorched wood stripping, and black argillite mining with standard vanilla item tags and NeoForge ItemAbilities / 将破盾、焦木去皮与黑泥岩挖掘中的硬编码工具类检查替换为原版标准标签与 NeoForge ItemAbilities")
                 .define("fixHardcodedToolChecks", true);
+        FIX_DEATH_PROTECTION_EVENTS = builder
+                .comment("Handle Dark Ward and Death Totem at HIGH event priority for revive-mod compatibility, skip void and /kill bypass damage, protect Creative stacks, and unify hand buffs / 以 HIGH 事件优先级统一处理暗影守护与死亡图腾免死以兼容倒地复活模组，修复掉虚空与 /kill 误消耗、创造模式误耗及主副手力量等级不一致缺陷")
+                .define("fixDeathProtectionEvents", true);
+        FIX_WARNING_MESSAGE_LOCALIZATION = builder
+                .comment("Send Nightmare Stalker and Missionary invasion warnings as translatable components instead of server-pre-flattened strings / 修复梦魇潜行者与传教士警告在服务端提前硬转字符串导致专用服务端输出原始翻译键及无法按客户端语言本地化的问题")
+                .define("fixWarningMessageLocalization", true);
         builder.pop();
 
         SPEC = builder.build();
