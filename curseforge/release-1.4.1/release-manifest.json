@@ -1,0 +1,56 @@
+{
+  "files": [
+    {
+      "minecraft": "1.20.1",
+      "artifact": "E:\\模组\\发cf的模组\\AAA-MCR bug 修复\\生于混沌bug修复\\1201-forge-borninchaosoptimizer\\build\\libs\\borninchaosoptimizer-1.20.1-forge-1.4.1.jar",
+      "sha256": "8f15dad55a05acaece191fda3756ffc19cc3b0dd93b53d9964516bf360e2a982",
+      "metadata": {
+        "changelog": "## 1.4.1\n\n- **Player Teleport Double-Offset Desync Fix**:\n  - Fixed `ChillingHorrorMobAttacksProcedure` applying the `-0.6` Y sinking offset twice to `ServerPlayer` targets (once via `entity.teleportTo(x, y - 0.6, z)` and a second time via `connection.teleport(x, entity.getY() - 0.6, z)`), which desynced server and client positions by `0.6` blocks and caused players to clip deeper into blocks/ground on hit.\n  - Redirected `ServerGamePacketListenerImpl#teleport` inside the procedure to synchronize the exact post-`teleportTo` server coordinates (`player.getX/Y/Z()`).\n\n---\n\n## 1.4.1 更新说明\n\n- **玩家受击下陷二次偏移不同步修复**：\n  - 修复 `ChillingHorrorMobAttacksProcedure` 对玩家施加 `-0.6` 格 Y 轴下陷时，先执行 `entity.teleportTo(x, y - 0.6, z)` 又紧接着执行 `connection.teleport(x, entity.getY() - 0.6, z)` 导致双端额外二次叠加偏移 `0.6` 格、客户端与服务端位置错位甚至卡入方块/地面的缺陷。\n  - 将该过程内 `ServerGamePacketListenerImpl#teleport` 重定向为直接同步服务端刚落定的精确坐标（`player.getX/Y/Z()`）。",
+        "changelogType": "markdown",
+        "displayName": "1.20.1-Forge-Born in Chaos Bug Fixes-1.4.1",
+        "gameVersions": [
+          9990,
+          7498,
+          8326,
+          9638,
+          9639
+        ],
+        "releaseType": "release",
+        "relations": {
+          "projects": [
+            {
+              "slug": "born-in-chaos",
+              "type": "requiredDependency"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "minecraft": "1.21.1",
+      "artifact": "E:\\模组\\发cf的模组\\AAA-MCR bug 修复\\生于混沌bug修复\\1211-neoforge-borninchaosoptimizer\\build\\libs\\borninchaosoptimizer-1.21.1-neoforge-1.4.1.jar",
+      "sha256": "33cbde5c541172ed5a033a2ffcf2a0daa0a0c02c672dcf4e6234b68d806e23a5",
+      "metadata": {
+        "changelog": "## 1.4.1\n\n- **Player Teleport Double-Offset Desync Fix**:\n  - Fixed `ChillingHorrorEventMobsAttacksProcedure` applying the `-0.6` Y sinking offset twice to `ServerPlayer` targets (once via `entity.teleportTo(x, y - 0.6, z)` and a second time via `connection.teleport(x, entity.getY() - 0.6, z)`), which desynced server and client positions by `0.6` blocks and caused players to clip deeper into blocks/ground on hit.\n  - Redirected `ServerGamePacketListenerImpl#teleport` inside the procedure to synchronize the exact post-`teleportTo` server coordinates (`player.getX/Y/Z()`).\n\n---\n\n## 1.4.1 更新说明\n\n- **玩家受击下陷二次偏移不同步修复**：\n  - 修复 `ChillingHorrorEventMobsAttacksProcedure` 对玩家施加 `-0.6` 格 Y 轴下陷时，先执行 `entity.teleportTo(x, y - 0.6, z)` 又紧接着执行 `connection.teleport(x, entity.getY() - 0.6, z)` 导致双端额外二次叠加偏移 `0.6` 格、客户端与服务端位置错位甚至卡入方块/地面的缺陷。\n  - 将该过程内 `ServerGamePacketListenerImpl#teleport` 重定向为直接同步服务端刚落定的精确坐标（`player.getX/Y/Z()`）。",
+        "changelogType": "markdown",
+        "displayName": "1.21.1-NeoForge-Born in Chaos Bug Fixes-1.4.1",
+        "gameVersions": [
+          11779,
+          10150,
+          11135,
+          9638,
+          9639
+        ],
+        "releaseType": "release",
+        "relations": {
+          "projects": [
+            {
+              "slug": "born-in-chaos",
+              "type": "requiredDependency"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

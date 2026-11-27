@@ -117,7 +117,8 @@
     "TrapAndAoeTargetFixMixin",
     "WoodSplitterAxeShieldFixMixin",
     "ZombieLumberjackAttackFixMixin",
-    "ZombieMaggotsSpawnCapMixin"
+    "ZombieMaggotsSpawnCapMixin",
+    "ChillingHorrorEventMobsAttacksFixMixin"
   ],
   "client": [
     "client.BicCustomModelParentFixMixin",

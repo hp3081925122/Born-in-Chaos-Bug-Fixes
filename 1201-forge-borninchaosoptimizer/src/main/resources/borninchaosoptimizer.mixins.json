@@ -151,7 +151,8 @@
     "scoreboard.ZombieswithDoorAttackProcedureMixin",
     "scoreboard.ZombieswithDoorHurtProcedureMixin",
     "seasonal.SeasonalDropProceduresMixin",
-    "seasonal.SeasonalSpawnProceduresMixin"
+    "seasonal.SeasonalSpawnProceduresMixin",
+    "ChillingHorrorMobAttacksFixMixin"
   ],
   "client": [
     "client.BicCustomModelParentFixMixin",
