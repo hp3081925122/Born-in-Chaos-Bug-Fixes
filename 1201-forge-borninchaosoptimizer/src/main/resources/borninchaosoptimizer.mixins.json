@@ -40,6 +40,7 @@
     "entity.BicEntityBaseTickFlagMixin",
     "entity.BornInChaosEntitiesTrackingMixin",
     "entity.EntityLootDataDrivenMixin",
+    "entity.ExplosionImmunityTagFixMixin",
     "entity.BicProjectilesMixin",
     "entity.BossAndCreeperHurtOrderMixin",
     "entity.CustomRangedGoalsMixin",

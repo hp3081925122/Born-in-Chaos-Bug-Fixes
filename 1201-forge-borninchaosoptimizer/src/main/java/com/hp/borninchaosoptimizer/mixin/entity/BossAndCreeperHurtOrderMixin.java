@@ -60,7 +60,7 @@ public abstract class BossAndCreeperHurtOrderMixin extends Monster {
             return;
         }
         if ((Object) this instanceof PhantomCreeperEntity) {
-            if (source.is(DamageTypeTags.IS_EXPLOSION)
+            if ((!source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && source.is(DamageTypeTags.IS_EXPLOSION))
                     || source.is(DamageTypes.DRAGON_BREATH)
                     || this.isInvulnerableTo(source)
                     || this.level().isClientSide()) {
